@@ -8,36 +8,30 @@ package algorithmbasic.class20;
  */
 public class Knapsack {
 
-    // w 10 5 7 6
-    // v 20 2 3 8
-    // bag 16
-    // 返回在w数组中满足不超过bag下的最大价值
-    /*public static int maxValue(int[] w, int[] v, int bag, int index) {
+    public static int maxValue(int[] w, int[] v, int bag) {
 
+        return process2(w, v, bag, 0);
+    }
+
+    //从前往后遍历一遍数组，找到最优解并返回。
+    private static int process2(int[] w, int[] v, int bag, int index) {
         if (bag < 0) {
             return 0;
         }
-
         if (index == w.length) {
             return 0;
         }
 
-        int maxV = Integer.MIN_VALUE;
 
-        for (int i = index; i < w.length; i++) {
+        //不要当前这个数
+        int nice1 = process2(w, v, bag, index + 1);
 
-            //返回在w数组中满足不超过bag下的最大价值
-            int ans = maxValue(w, v, (bag - w[i]), index + 1);
+        //要当前这个数
+        int nice2 = process2(w, v, bag - w[index], index + 1);
+        nice2 = (nice2 + v[index]);
 
-            int mny = ans + v[i];
-
-            maxV = Math.max(maxV, mny);
-        }
-
-        return maxV;
-    }*/
-
-
+        return Math.max(nice1, nice2);
+    }
 
 
     public static int maxValue2(int[] w, int[] v, int bag) {
@@ -50,16 +44,16 @@ public class Knapsack {
 
     // index 0~N
     // rest 负~bag
-    public static int process(int[] w, int[] v, int index, int rest) {
-        if (rest < 0) {
+    public static int process(int[] w, int[] v, int index, int bag) {
+        if (bag < 0) {
             return -1;
         }
         if (index == w.length) {
             return 0;
         }
-        int p1 = process(w, v, index + 1, rest);
+        int p1 = process(w, v, index + 1, bag);
         int p2 = 0;
-        int next = process(w, v, index + 1, rest - w[index]);
+        int next = process(w, v, index + 1, bag - w[index]);
         if (next != -1) {
             p2 = v[index] + next;
         }
@@ -74,7 +68,7 @@ public class Knapsack {
         int[] values = {5, 6, 3, 19, 12, 4, 2};
 
         int bag = 15;
-        /*System.out.println(maxValue(weights, values, bag, 0));*/
+        System.out.println(maxValue(weights, values, bag));
         System.out.println(maxValue2(weights, values, bag));
     }
 }
