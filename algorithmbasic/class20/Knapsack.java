@@ -8,6 +8,9 @@ package algorithmbasic.class20;
  */
 public class Knapsack {
 
+    /**
+     * 暴力方法
+     */
     public static int maxValue(int[] w, int[] v, int bag) {
 
         return process2(w, v, bag, 0);
@@ -68,15 +71,41 @@ public class Knapsack {
         return Math.max(p1, p2);
     }
 
+    /**
+     * 动态规划
+     */
+
+    public static int dp(int[] w, int[] v, int bag) {
+
+        int N = w.length;
+        // index : [0 , N]
+        // bag : [0 , bag]
+        int[][] dp = new int[N + 1][bag + 1];
+        for (int index = N - 1; index >= 0; index--) {
+            for (int rest = 0; rest <= bag; rest++) {
+                int p1 = dp[index + 1][rest];
+                int p2 = rest - w[index] < 0 ? -1 : v[index] + dp[index + 1][rest - w[index]];
+                if (p2 != -1) {
+                    dp[index][rest] = Math.max(p1, p2);
+                } else {
+                    dp[index][rest] = p1;
+                }
+            }
+        }
+        return dp[0][bag];
+    }
+
+
     public static void main(String[] args) {
         /*int[] weights = { 3, 2, 4, 7, 3, 1, 7 };
         int[] values = { 5, 6, 3, 19, 12, 4, 2 };*/
 
-        int[] weights = {3, 2, 4, 7, 3, 1, 7, 5, 9, 3};
-        int[] values = {5, 6, 3, 19, 12, 4, 2, 4, 8, 6};
+        int[] weights = {3, 2, 4, 7, 3, 1, 7, 5};
+        int[] values = {5, 6, 3, 19, 12, 4, 2, 4};
 
         int bag = 15;
         System.out.println(maxValue(weights, values, bag));
         System.out.println(maxValue2(weights, values, bag));
+        System.out.println(dp(weights, values, bag));
     }
 }
