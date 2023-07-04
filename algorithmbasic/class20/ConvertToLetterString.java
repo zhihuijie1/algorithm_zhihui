@@ -20,14 +20,16 @@ public class ConvertToLetterString {
         return process(chars, 0);
     }
 
-    //返回所有可能出现的情况。
+    //返回所有可能出现的方法数目。
     public static int process(char[] chars, int index) {
 
+        //之所以返回1是因为走到最后这条路是有效的，所以返回1说明这条路有效，归的时候就会将这条路算入。
         if (index >= chars.length) {
             return 1;
         }
 
         //这个截止条件十分的重要。
+        //如果当前的index独立的面对0字符说明当前的决定是错误的，所以返回0，因为0加任何的数都是0相当于这条路废了。
         if (chars[index] == '0') {
             return 0;
         }
@@ -59,7 +61,7 @@ public class ConvertToLetterString {
 
         for (int index = str.length() - 1; index >= 0; index--) {
 
-            if("0".equals(String.valueOf(str.charAt(index)))) {
+            if ("0".equals(String.valueOf(str.charAt(index)))) {
                 continue;
             }
             //只要当前位置
