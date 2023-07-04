@@ -52,21 +52,17 @@ public class ConvertToLetterString {
      * 迭代版本
      */
     public static int number2(String str) {
-        int[] arr = new int[str.length() + 2];
+        int[] arr = new int[str.length() + 1];
 
         // index >= chars.length return 1
-        for (int i = str.length(); i < arr.length; i++) {
-            arr[i] = 1;
-        }
-
+        arr[str.length()] = 1;
         for (int index = str.length() - 1; index >= 0; index--) {
-
+            //是0直接跳过，因为从后往前构造，所以要不是0，要不是0x等，都是不合理的。如果是从前往后构造的化，x0是合理的。
             if ("0".equals(String.valueOf(str.charAt(index)))) {
                 continue;
             }
             //只要当前位置
             int nub1 = arr[index + 1];
-
             //要当前位置与后一位置
             if (index + 1 != str.length()) {
                 int nub2 = arr[index + 2];
@@ -78,7 +74,6 @@ public class ConvertToLetterString {
             }
             arr[index] = nub1;
         }
-
         return arr[0];
     }
 
