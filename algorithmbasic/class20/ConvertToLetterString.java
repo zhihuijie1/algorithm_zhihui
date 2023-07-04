@@ -7,6 +7,10 @@ package algorithmbasic.class20;
  * 给定一个只有数字字符组成的字符串str，返回有多少种转化结果
  */
 public class ConvertToLetterString {
+
+    /**
+     * 暴力方法
+     */
     public static int number(String str) {
         if (str == null || str.length() < 1) {
             return 0;
@@ -41,4 +45,70 @@ public class ConvertToLetterString {
         }
         return nub1;
     }
+
+    /**
+     * 迭代版本
+     */
+    public static int number2(String str) {
+        int[] arr = new int[str.length() + 2];
+
+        // index >= chars.length return 1
+        for (int i = str.length(); i < arr.length; i++) {
+            arr[i] = 1;
+        }
+
+        for (int index = str.length() - 1; index >= 0; index--) {
+
+            if("0".equals(String.valueOf(str.charAt(index)))) {
+                continue;
+            }
+            //只要当前位置
+            int nub1 = arr[index + 1];
+
+            //要当前位置与后一位置
+            if (index + 1 != str.length()) {
+                int nub2 = arr[index + 2];
+                String ans = String.valueOf(str.charAt(index)) + String.valueOf(str.charAt(index + 1));
+                if (Integer.parseInt(ans) <= 26) {
+                    arr[index] = nub2 + nub1;
+                    continue;
+                }
+            }
+            arr[index] = nub1;
+        }
+
+        return arr[0];
+    }
+
+    public static int dp1(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+        char[] str = s.toCharArray();
+        int N = str.length;
+        int[] dp = new int[N + 1];
+        dp[N] = 1;
+        for (int i = N - 1; i >= 0; i--) {
+            if (str[i] != '0') {
+                int ways = dp[i + 1];
+                if (i + 1 < str.length && (str[i] - '0') * 10 + str[i + 1] - '0' < 27) {
+                    ways += dp[i + 2];
+                }
+                dp[i] = ways;
+            }
+        }
+        return dp[0];
+    }
+
+
+    public static void main(String[] args) {
+        String str = "1232411676101915";
+        System.out.println(number(str));
+
+        System.out.println(number2(str));
+
+        System.out.println(dp1(str));
+    }
+
+
 }
