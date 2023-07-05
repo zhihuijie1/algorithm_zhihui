@@ -1,5 +1,7 @@
 package algorithmbasic.class20;
 
+import java.util.HashMap;
+
 /**
  * 给定一个字符串str，给定一个字符串类型的数组arr，出现的字符都是小写英文
  * arr每一个字符串，代表一张贴纸，你可以把单个字符剪开使用，目的是拼出str来
@@ -37,7 +39,7 @@ public class StickersToSpellWord {
                 min = Math.min(min, nub);
             }
         }
-        return min + min == Integer.MAX_VALUE ? 0 : 1;
+        return min + (min == Integer.MAX_VALUE ? 0 : 1);
     }
 
     //将target中与str重合的部分去除，重新返回一个String。
@@ -49,17 +51,163 @@ public class StickersToSpellWord {
         */
         char[] str1 = str.toCharArray();
         char[] str2 = target.toCharArray();
-        StringBuffer s = new StringBuffer();
-        for(char i : str2) {
-            for(char j : str1) {
-                if(str2[i] != str1[j] && j == str2.length) {
-                    s.append(str2[i]);
-                     continue;
-                }
-                if(str2[i] == str1[j]) {
-                    str1[j];
-                }
+        //记录字母的数目。
+        int[] count = new int[26];
+        //记录target含有哪些字母以及这些字母的数目。
+        for (char ch : str2) {
+            count[ch - 'a']++;
+        }
+        //将与target重和的字母去除。
+        for (char ch : str1) {
+            count[ch - 'a']--;
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < count.length; i++) {
+            while (count[i] > 0) {
+                stringBuilder.append((char) (i + 'a'));
+                count[i]--;
             }
         }
+        return stringBuilder.toString();
+    }
+
+    /**
+     * 小优化 --> 剪枝
+     */
+    public static int minStickers2(String[] stickers, String target) {
+        if (stickers == null || target == null || "".equals(target)) {
+            return 0;
+        }
+        //对stickers数组中字符串词频进行统计。
+        int N = stickers.length;
+        int[][] count = new int[N][26];
+        for (int i = 0; i < stickers.length; i++) {
+            char[] chars = stickers[i].toCharArray();
+            for (int j = 0; j < chars.length; j++) {
+                count[i][chars[j] - 'a']++;
+            }
+        }
+        return process2(count, target);
+    }
+
+    //返回完成任务所需的最少纸牌数目。
+    public static int process2(int[][] stickers, String target) {
+        if (target.length() == 0) {
+            return 0;
+        }
+        //对target词频进行统计。
+        char[] tchars = target.toCharArray();
+        int[] tcount = new int[26];
+        for (int i = 0; i < tchars.length; i++) {
+            tcount[tchars[i] - 'a']++;
+        }
+        int min = Integer.MAX_VALUE;
+        //剪枝 -- 找stickers中有target字符串首字母的字符串。
+        for (int i = 0; i < stickers.length; i++) {
+            //tchars[0] -- target字符串的首字母。
+            //tchar[0]-'a' -- target的首字母是谁，对应的数组下标是几。
+            if (stickers[i][tchars[0] - 'a'] > 0) {
+                //删除stickers[i]中与target一样的字母，并拼接出剩余字符串。
+                StringBuilder sb = new StringBuilder();
+                for (int j = 0; j < 26; j++) {
+                    int num = tcount[j] - stickers[i][j];
+                    //tcount[j] > stickers[i][j] -- 正数
+                    //tcount[j] = stickers[i][j] -- 0
+                    //tcount[j] < stickers[i][j] -- 负数
+                    //只有正数才会拼接。
+                    for (int k = 0; k < num; k++) {
+                        sb.append((char) (j + 'a'));
+                    }
+                }
+                String str = sb.toString();
+                int num = process2(stickers, str);
+                min = Math.min(num + 1, min);
+            }
+        }
+        return min;
+    }
+
+
+    /**
+     * target是一直变化的变量，但是无法确定这个字符串的变化范围，无法使用表格法/迭代法。
+     * 使用记忆性搜索。
+     */
+
+    public static int minStickers3(String[] stickers, String target) {
+        if (stickers == null || target == null || "".equals(target)) {
+            return 0;
+        }
+        //对stickers数组中字符串词频进行统计。
+        int N = stickers.length;
+        int[][] count = new int[N][26];
+        for (int i = 0; i < stickers.length; i++) {
+            char[] chars = stickers[i].toCharArray();
+            for (int j = 0; j < chars.length; j++) {
+                count[i][chars[j] - 'a']++;
+            }
+        }
+        HashMap<String, Integer> map = new HashMap();
+        int nub = process3(count, target, map);
+        return nub == Integer.MAX_VALUE ? -1 : nub;
+    }
+
+    //返回完成任务所需的最少纸牌数目。
+    public static int process3(int[][] stickers, String target, HashMap<String, Integer> map) {
+        if (map.containsKey(target)) {
+            return map.get(target);
+        }
+        if (target.length() == 0) {
+            return 0;
+        }
+        //对target词频进行统计。
+        char[] tchars = target.toCharArray();
+        int[] tcount = new int[26];
+        for (int i = 0; i < tchars.length; i++) {
+            tcount[tchars[i] - 'a']++;
+        }
+        int min = Integer.MAX_VALUE;
+        //剪枝 -- 找stickers中有target字符串首字母的字符串。
+        for (int i = 0; i < stickers.length; i++) {
+            //tchars[0] -- target字符串的首字母。
+            //tchar[0]-'a' -- target的首字母是谁，对应的数组下标是几。
+            if (stickers[i][tchars[0] - 'a'] > 0) {
+                //删除stickers[i]中与target一样的字母，并拼接出剩余字符串。
+                StringBuilder sb = new StringBuilder();
+                for (int j = 0; j < 26; j++) {
+                    int num = tcount[j] - stickers[i][j];
+                    //tcount[j] > stickers[i][j] -- 正数
+                    //tcount[j] = stickers[i][j] -- 0
+                    //tcount[j] < stickers[i][j] -- 负数
+                    //只有正数才会拼接。
+                    for (int k = 0; k < num; k++) {
+                        sb.append((char) (j + 'a'));
+                    }
+                }
+                String str = sb.toString();
+                int num = process3(stickers, str, map);
+                min = Math.min(num + 1, min);
+                map.put(target, min);
+            }
+        }
+        return min;
+    }
+
+
+    public static void main(String[] args) {
+        String[] stickers = {"ba", "c", "abcd"};
+        String target = "babac";
+        int i = minStickers2(stickers, target);
+        System.out.println(i);
+
+        int i1 = minStickers1(stickers, target);
+        System.out.println(i1);
+
+        int i2 = minStickers3(stickers, target);
+        System.out.println(i2);
+        //-2147483648
+        System.out.println(Integer.MIN_VALUE);
+
+
+        System.out.println(Integer.MAX_VALUE);
     }
 }
