@@ -18,7 +18,8 @@ public class StickersToSpellWord {
         if (stickers == null || target == null || "".equals(target)) {
             return 0;
         }
-        return process1(stickers, target);
+        int nub = process1(stickers, target);
+        return nub == Integer.MAX_VALUE ? -1 : nub;
     }
 
     //返回至少多少张贴纸可以完成这个任务。
@@ -87,7 +88,8 @@ public class StickersToSpellWord {
                 count[i][chars[j] - 'a']++;
             }
         }
-        return process2(count, target);
+        int nub = process2(count, target);
+        return nub == Integer.MAX_VALUE ? -1 : nub;
     }
 
     //返回完成任务所需的最少纸牌数目。
@@ -121,7 +123,7 @@ public class StickersToSpellWord {
                 }
                 String str = sb.toString();
                 int num = process2(stickers, str);
-                min = Math.min(num + 1, min);
+                min = (num == Integer.MAX_VALUE ? min : Math.min(min, num + 1));
             }
         }
         return min;
@@ -147,6 +149,7 @@ public class StickersToSpellWord {
             }
         }
         HashMap<String, Integer> map = new HashMap();
+        map.put("", 0);
         int nub = process3(count, target, map);
         return nub == Integer.MAX_VALUE ? -1 : nub;
     }
@@ -156,9 +159,9 @@ public class StickersToSpellWord {
         if (map.containsKey(target)) {
             return map.get(target);
         }
-        if (target.length() == 0) {
+        /*if (target.length() == 0) {
             return 0;
-        }
+        }*/
         //对target词频进行统计。
         char[] tchars = target.toCharArray();
         int[] tcount = new int[26];
@@ -185,7 +188,7 @@ public class StickersToSpellWord {
                 }
                 String str = sb.toString();
                 int num = process3(stickers, str, map);
-                min = Math.min(num + 1, min);
+                min = (num == Integer.MAX_VALUE ? min : Math.min(min, num + 1));
                 map.put(target, min);
             }
         }
@@ -194,8 +197,8 @@ public class StickersToSpellWord {
 
 
     public static void main(String[] args) {
-        String[] stickers = {"ba", "c", "abcd"};
-        String target = "babac";
+        String[] stickers = {"notice", "possible"};
+        String target = "basicbasic";
         int i = minStickers2(stickers, target);
         System.out.println(i);
 
@@ -205,9 +208,5 @@ public class StickersToSpellWord {
         int i2 = minStickers3(stickers, target);
         System.out.println(i2);
         //-2147483648
-        System.out.println(Integer.MIN_VALUE);
-
-
-        System.out.println(Integer.MAX_VALUE);
     }
 }
