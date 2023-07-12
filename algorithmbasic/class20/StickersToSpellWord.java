@@ -129,7 +129,6 @@ public class StickersToSpellWord {
         return min;
     }
 
-
     /**
      * target是一直变化的变量，但是无法确定这个字符串的变化范围，无法使用表格法/迭代法。
      * 使用记忆性搜索。
