@@ -8,6 +8,10 @@ package algorithmbasic.class21;
  * 最长回文子序列是“1234321”或者“123c321”，返回长度7
  */
 public class PalindromeSubsequence {
+
+    /**
+     * 暴力递归
+     */
     public static int lpsl1(String s) {
         if (s == null || s.length() == 0) {
             return 0;
@@ -21,6 +25,10 @@ public class PalindromeSubsequence {
     public static int process(char[] str, int start, int tail) {
         if (start == tail) {
             return 1;
+        }
+        if (start == tail - 1) {
+            //这个1很机灵
+            return str[start] == str[tail] ? 2 : 1;
         }
 
         //s 是  t 不是
@@ -38,9 +46,29 @@ public class PalindromeSubsequence {
         return Math.max(Math.max(res1, res2), Math.max(res3, res4));
     }
 
-    public static void main(String[] args) {
-        String str = "a12b3c43def2ghi1kpm";
-        System.out.println(lpsl1(str));
+    /**
+     * 迭代版本
+     */
+    public static int lpsl2(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+        int N = s.length();
+        char[] str = s.toCharArray();
+        int[][] dp = new int[N][N];
+        for (int i = 0; i < N; i++) {
+            dp[i][i] = 1;
+        }
+        for (int l = 1; l < N; l++) {
+            dp[l - 1][l] = str[l - 1] == str[l] ? 2 : 1;
+            for (int c = l - 2; c >= 0; c--) {
+                int res1 = dp[c][l - 1];
+                int res2 = dp[c + 1][l];
+                int res3 = dp[c + 1][l - 1];
+                int res4 = str[c] == str[l] ? 2 + dp[c + 1][l - 1] : 0;
+                dp[c][l] = Math.max(Math.max(res1, res2), Math.max(res3, res4));
+            }
+        }
+        return dp[0][N - 1];
     }
-
 }
