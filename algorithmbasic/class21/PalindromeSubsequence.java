@@ -71,4 +71,29 @@ public class PalindromeSubsequence {
         }
         return dp[0][N - 1];
     }
+
+    //进一步优化
+    public static int lpsl3(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+        int N = s.length();
+        char[] str = s.toCharArray();
+        int[][] dp = new int[N][N];
+        for (int i = 0; i < N; i++) {
+            dp[i][i] = 1;
+        }
+        for (int l = 1; l < N; l++) {
+            dp[l - 1][l] = str[l - 1] == str[l] ? 2 : 1;
+            for (int c = l - 2; c >= 0; c--) {
+                int res1 = dp[c][l - 1];//left
+                int res2 = dp[c + 1][l];//down
+                //因为左下一定小于等于右或者下，所以可以直接的舍去。
+                //int res3 = dp[c + 1][l - 1];//leftdown
+                int res4 = str[c] == str[l] ? 2 + dp[c + 1][l - 1] : 0;
+                dp[c][l] = Math.max(Math.max(res1, res2), res4);
+            }
+        }
+        return dp[0][N - 1];
+    }
 }
