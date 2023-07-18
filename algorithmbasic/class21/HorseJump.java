@@ -52,7 +52,6 @@ public class HorseJump {
             //这一层的每个数都依赖下一层。
             for (int x = 0; x < 10; x++) {
                 for (int y = 0; y < 9; y++) {
-
                     int p1 = pick(dp, x + 2, y + 1, plie - 1);
                     int p2 = pick(dp, x + 1, y + 2, plie - 1);
                     int p3 = pick(dp, x + 2, y - 1, plie - 1);
