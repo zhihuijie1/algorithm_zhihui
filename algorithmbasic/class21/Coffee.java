@@ -1,5 +1,6 @@
 package algorithmbasic.class21;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
@@ -87,16 +88,17 @@ public class Coffee {
      * dp方法
      */
     public static int minTime2(int[] arr, int n, int a, int b) {
-        PriorityQueue<Machine> heap = new PriorityQueue<Machine>(new MyComparatoer());
+        PriorityQueue<Machine> heap = new PriorityQueue<>(new MyComparatoer());
+        //初始化小根堆。
         for (int i = 0; i < arr.length; i++) {
             heap.add(new Machine(0, arr[i]));
         }
-        int[] drinks = new int[n];
+        int[] drinks = new int[n];//存储着每个顾客买完咖啡后的时间
         for (int i = 0; i < n; i++) {
-            Machine cur = heap.poll();
-            cur.startTime += cur.startTime;
-            drinks[i] = cur.startTime;
-            heap.add(cur);
+            Machine machine = heap.poll();
+            machine.startTime += machine.runTime;
+            heap.add(machine);
+            drinks[i] = machine.startTime;
         }
         return bestTimeDp(drinks, a, b);
     }
@@ -120,8 +122,8 @@ public class Coffee {
             for (int free = 0; free <= maxFree; free++) {
                 // index号杯子 决定洗
                 int curWash = Math.max(free, drinks[index]) + wash;
-                if (curWash > maxFree) { //如果中间过程中出现了大于maxFree的情况一定是错误的。
-                    continue;
+                if (curWash > maxFree) { //如果中间过程中出现了大于maxFree的情况一定是错误的。以后的也都是错误的直接跳过
+                    break;
                 }
                 //int restWash = dp[index+1][curWash]可能出现越界，因为free趋于maxFree时，加wash会越界。
                 int restWash = dp[index + 1][curWash];
@@ -160,26 +162,69 @@ public class Coffee {
     public static void main(String[] args) {
         int len = 10;
         int max = 10;
-        int testTime = 10;
+        int testTime = 5;
         System.out.println("测试开始");
         for (int i = 0; i < testTime; i++) {
             int[] arr = randomArray(len, max);
             int n = (int) (Math.random() * 7) + 1;
             int a = (int) (Math.random() * 7) + 1;
             int b = (int) (Math.random() * 10) + 1;
+            int ans1 = right(arr, n, a, b);
             int ans2 = minTime1(arr, n, a, b);
             int ans3 = minTime2(arr, n, a, b);
-            if (ans2 != ans3) {
+            if (ans1 != ans2 || ans2 != ans3) {
                 printArray(arr);
                 System.out.println("n : " + n);
                 System.out.println("a : " + a);
                 System.out.println("b : " + b);
-                System.out.println(ans2 + " , " + ans3);
+                System.out.println(ans1 + " , " + ans2 + " , " + ans3);
                 System.out.println("===============");
                 break;
             }
         }
         System.out.println("测试结束");
 
+    }
+
+
+
+    public static int right(int[] arr, int n, int a, int b) {
+        int[] times = new int[arr.length];
+        int[] drink = new int[n];
+        return forceMake(arr, times, 0, drink, n, a, b);
+    }
+
+    // 每个人暴力尝试用每一个咖啡机给自己做咖啡
+    public static int forceMake(int[] arr, int[] times, int kth, int[] drink, int n, int a, int b) {
+        if (kth == n) {
+            int[] drinkSorted = Arrays.copyOf(drink, kth);
+            Arrays.sort(drinkSorted);
+            return forceWash(drinkSorted, a, b, 0, 0, 0);
+        }
+        int time = Integer.MAX_VALUE;
+        for (int i = 0; i < arr.length; i++) {
+            int work = arr[i];
+            int pre = times[i];
+            drink[kth] = pre + work;
+            times[i] = pre + work;
+            time = Math.min(time, forceMake(arr, times, kth + 1, drink, n, a, b));
+            drink[kth] = 0;
+            times[i] = pre;
+        }
+        return time;
+    }
+
+    public static int forceWash(int[] drinks, int a, int b, int index, int washLine, int time) {
+        if (index == drinks.length) {
+            return time;
+        }
+        // 选择一：当前index号咖啡杯，选择用洗咖啡机刷干净
+        int wash = Math.max(drinks[index], washLine) + a;
+        int ans1 = forceWash(drinks, a, b, index + 1, wash, Math.max(wash, time));
+
+        // 选择二：当前index号咖啡杯，选择自然挥发
+        int dry = drinks[index] + b;
+        int ans2 = forceWash(drinks, a, b, index + 1, washLine, Math.max(dry, time));
+        return Math.min(ans1, ans2);
     }
 }
