@@ -75,10 +75,111 @@ public class Coffee {
         int p1 = Math.max(curWash, restWash);
 
         // index号杯子 决定挥发
-        int curAir = air;
+        int curAir = drinks[index] + air;
         int restAir = bestTime(drinks, wash, air, index + 1, free);
         int p2 = Math.max(curAir, restAir);
 
         return Math.min(p1, p2);
+    }
+
+
+    /**
+     * dp方法
+     */
+    public static int minTime2(int[] arr, int n, int a, int b) {
+        PriorityQueue<Machine> heap = new PriorityQueue<Machine>(new MyComparatoer());
+        for (int i = 0; i < arr.length; i++) {
+            heap.add(new Machine(0, arr[i]));
+        }
+        int[] drinks = new int[n];
+        for (int i = 0; i < n; i++) {
+            Machine cur = heap.poll();
+            cur.startTime += cur.startTime;
+            drinks[i] = cur.startTime;
+            heap.add(cur);
+        }
+        return bestTimeDp(drinks, a, b);
+    }
+
+    //drinks -- 开始刷碗时间的顺序数组
+    //wash -- 刷一个碗的时间
+    //air -- 挥发的时间
+    public static int bestTimeDp(int[] drinks, int wash, int air) {
+        int N = drinks.length;
+        //变化的参数主要是： index, free -- 洗的机器什么时候空闲
+        //确定变化范围 index -- [0 , N]    free -- [0 , maxFree]
+        //确定maxFree值
+        int maxFree = 0;
+        for (int i = 0; i < N; i++) {
+            maxFree = Math.max(drinks[i], maxFree) + wash;
+        }
+
+        int[][] dp = new int[N + 1][maxFree + 1];
+        //根据暴力递归分析得：应该从下往上构建
+        for (int index = N - 1; index >= 0; index--) {
+            for (int free = 0; free <= maxFree; free++) {
+                // index号杯子 决定洗
+                int curWash = Math.max(free, drinks[index]) + wash;
+                if (curWash > maxFree) { //如果中间过程中出现了大于maxFree的情况一定是错误的。
+                    continue;
+                }
+                //int restWash = dp[index+1][curWash]可能出现越界，因为free趋于maxFree时，加wash会越界。
+                int restWash = dp[index + 1][curWash];
+                int p1 = Math.max(curWash, restWash);
+
+                // index号杯子 决定挥发
+                int curAir = drinks[index] + air;
+                int restAir = dp[index + 1][free];
+                int p2 = Math.max(curAir, restAir);
+
+                dp[index][free] = Math.min(p1, p2);
+            }
+        }
+        return dp[0][0];
+    }
+
+
+    // for test
+    public static int[] randomArray(int len, int max) {
+        int[] arr = new int[len];
+        for (int i = 0; i < len; i++) {
+            arr[i] = (int) (Math.random() * max) + 1;
+        }
+        return arr;
+    }
+
+    // for test
+    public static void printArray(int[] arr) {
+        System.out.print("arr : ");
+        for (int j = 0; j < arr.length; j++) {
+            System.out.print(arr[j] + ", ");
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        int len = 10;
+        int max = 10;
+        int testTime = 10;
+        System.out.println("测试开始");
+        for (int i = 0; i < testTime; i++) {
+            int[] arr = randomArray(len, max);
+            int n = (int) (Math.random() * 7) + 1;
+            int a = (int) (Math.random() * 7) + 1;
+            int b = (int) (Math.random() * 10) + 1;
+            int ans2 = minTime1(arr, n, a, b);
+            int ans3 = minTime2(arr, n, a, b);
+            if (ans2 != ans3) {
+                printArray(arr);
+                System.out.println("n : " + n);
+                System.out.println("a : " + a);
+                System.out.println("b : " + b);
+                System.out.println(ans2 + " , " + ans3);
+                System.out.println("===============");
+                break;
+            }
+        }
+        System.out.println("测试结束");
+
     }
 }
