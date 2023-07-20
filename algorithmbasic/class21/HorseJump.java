@@ -106,15 +106,3 @@ public class HorseJump {
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
