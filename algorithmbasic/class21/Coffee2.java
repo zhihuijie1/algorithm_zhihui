@@ -52,7 +52,7 @@ public class Coffee2 {
     }
 
     public static int washTime(int[] drinks, int wash, int air, int index, int free) { //free -- 刷碗机可以工作时刻
-        if(index == drinks.length) {
+        if (index == drinks.length) {
             return 0;
         }
         //index位置选择洗
@@ -77,10 +77,3 @@ public class Coffee2 {
         return Math.min(time3, t3);
     }
 }
-
-
-
-
-
-
-

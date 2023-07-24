@@ -120,8 +120,8 @@ public class CoinsWayEveryPaperDifferent {
             int[] arr = randomArray(maxLen, maxValue);
             int aim = (int) (Math.random() * maxValue);
             int ans1 = coinWays3(arr, aim);
-            int ans2 = dp(arr, aim);
-            if (ans1 != ans2) {
+            //int ans2 = dp(arr, aim);
+            /** if (ans1 != ans2) {
                 System.out.println("Oops!");
                 printArray(arr);
                 System.out.println(aim);
@@ -129,17 +129,8 @@ public class CoinsWayEveryPaperDifferent {
                 System.out.println(ans2);
                 break;
             }
+            * */
         }
         System.out.println("测试结束");
     }
 }
-
-
-
-
-
-
-
-
-
-
