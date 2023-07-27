@@ -13,6 +13,7 @@ public class CoinsWayNoLimit {
      * 暴力方法
      */
     public static int coinsWay(int[] arr, int aim) {
+        //aim == 0 啥也不用选本身就是一种方法。
         if (arr == null || arr.length == 0 || aim < 0) {
             return 0;
         }
@@ -20,16 +21,14 @@ public class CoinsWayNoLimit {
     }
 
     //返回的是满足目标的方法数
+    //从左到右模型：index位置面额选择a张，下一位置面额选择b张，一直到最后正好凑成aim的所有方法数。
     public static int process(int[] arr, int aim, int index) {
         if (index == arr.length) {
             return aim == 0 ? 1 : 0;
         }
-        if (aim == 0) {
-            return 1;
-        }
         int ways = 0;
-        for (int amount = 0; aim - amount * arr[index] >= 0; amount++) {
-            ways += process(arr, aim - amount * arr[index], index + 1);
+        for (int zhang = 0; aim - zhang * arr[index] >= 0; zhang++) {
+            ways += process(arr, aim - zhang * arr[index], index + 1);
         }
         return ways;
     }
@@ -37,91 +36,45 @@ public class CoinsWayNoLimit {
     /**
      * dp方法
      */
-    public static int coinsWay2(int[] arr, int aim) {
-        if (arr == null || arr.length == 0 || aim == 0) {
-            return 0;
-        }
-        int N = arr.length;
-        int[][] dp = new int[aim + 1][N + 1];
-        dp[0][N] = 1;
-        //从上往下，从右往左。
-        for (int column = N - 1; column >= 0; column--) {
-            for (int row = 0; row <= aim; row++) {
-                int ways = 0;
-                for (int amount = 0; row - amount * arr[column] >= 0; amount++) {
-                    ways += dp[row - (amount * arr[column])][column + 1];
-                }
-                dp[row][column] = ways;
-            }
-        }
-        return dp[aim][0];
-    }
-
-
     public static int dp1(int[] arr, int aim) {
         if (arr == null || arr.length == 0 || aim < 0) {
             return 0;
         }
         int N = arr.length;
-        int[][] dp = new int[N + 1][aim + 1];
-        dp[N][0] = 1;
-        for (int index = N - 1; index >= 0; index--) {
-            for (int rest = 0; rest <= aim; rest++) {
+        int[][] dp = new int[aim + 1][N + 1];
+        dp[0][N] = 1;
+        for (int L = N - 1; L >= 0; L--) {
+            for (int H = 0; H <= aim; H++) {
                 int ways = 0;
-                for (int zhang = 0; zhang * arr[index] <= rest; zhang++) {
-                    ways += dp[index + 1][rest - (zhang * arr[index])];
+                for (int zhang = 0; H - zhang * arr[L] >= 0; zhang++) {
+                    ways += dp[H - zhang * arr[L]][L + 1];
                 }
-                dp[index][rest] = ways;
+                dp[H][L] = ways;
             }
         }
-        return dp[0][aim];
+        return dp[aim][0];
     }
 
-    // 为了测试
-    public static int[] randomArray(int maxLen, int maxValue) {
-        int N = (int) (Math.random() * maxLen);
-        int[] arr = new int[N];
-        boolean[] has = new boolean[maxValue + 1];
-        for (int i = 0; i < N; i++) {
-            do {
-                arr[i] = (int) (Math.random() * maxValue) + 1;
-            } while (has[arr[i]]);
-            has[arr[i]] = true;
+    /**
+     * 继续dp优化
+     */
+    public static int dp2(int[] arr, int aim) {
+        if (arr == null || arr.length == 0 || aim < 0) {
+            return 0;
         }
-        return arr;
-    }
-
-    // 为了测试
-    public static void printArray(int[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(arr[i] + " ");
-        }
-        System.out.println();
-    }
-
-    // 为了测试
-    public static void main(String[] args) {
-        int maxLen = 10;
-        int maxValue = 30;
-        int testTime = 1000000;
-        System.out.println("测试开始");
-        for (int i = 0; i < testTime; i++) {
-            int[] arr = randomArray(maxLen, maxValue);
-            int aim = (int) (Math.random() * maxValue);
-            int ans1 = coinsWay(arr, aim);
-            int ans2 = dp1(arr, aim);
-            //int ans3 = dp2(arr, aim);
-            if (ans1 != ans2) {
-                System.out.println("Oops!");
-                printArray(arr);
-                System.out.println(aim);
-                System.out.println(ans1);
-                System.out.println(ans2);
-                //System.out.println(ans3);
-                break;
+        int N = arr.length;
+        int[][] dp = new int[aim + 1][N + 1];
+        dp[0][N] = 1;
+        for (int L = N - 1; L >= 0; L--) {
+            for (int H = 0; H <= aim; H++) {
+                //当前位置的上面位置
+                if (H - arr[L] >= 0) {
+                    dp[H][L] = dp[H - arr[L]][L] + dp[H][L + 1];
+                } else {
+                    dp[H][L] = dp[H][L + 1];
+                }
             }
         }
-        System.out.println("测试结束");
+        return dp[aim][0];
     }
-
 }
