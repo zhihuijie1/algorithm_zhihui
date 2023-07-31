@@ -95,6 +95,7 @@ public class CoinsWaySameValueSamePapper {
     }
 
     //dp方法优化
+    //我不想枚举，想用临近位置代替。
     public static int dp2(int[] arr, int aim) {
         if (arr == null || arr.length == 0 || aim < 0) {
             return 0;
