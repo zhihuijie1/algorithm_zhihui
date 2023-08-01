@@ -49,21 +49,21 @@ public class KillMonster {
         double all = Math.pow(M + 1, K);
         long[][] dp = new long[K + 1][N + 1];
         dp[0][0] = 1;
-        for (int i = 1; i <= K; i++) {
-            dp[i][0] = (long) Math.pow(M + 1, i);
+        for (int k = 1; k <= K; k++) {
+            dp[k][0] = (long)Math.pow(M + 1, k);
         }
         for (int k = 1; k <= K; k++) {
             for (int n = 1; n <= N; n++) {
                 int ways = 0;
                 for (int cut = 0; cut <= M; cut++) {
-                    if (n - cut > 0) {
+                    if(n - cut > 0) {
                         ways += dp[k - 1][n - cut];
-                    } else {
-                        //当前的n <= 0,直接返回结果。k-1指向下一层。
-                        ways += Math.pow(M + 1, k - 1); //注意；k-1
+                    }else {
+                        //注意这个地方是k-1,因为
+                        ways += Math.pow(M + 1, k - 1);
                     }
                 }
-                dp[k][n] = ways;
+                dp[k][n] =  ways;
             }
         }
         return dp[K][N] / all;
@@ -75,40 +75,24 @@ public class KillMonster {
             return 0;
         }
         double all = Math.pow(M + 1, K);
-        long dp[][] = new long[K + 1][N + 1];
+        long[][] dp = new long[K + 1][N + 1];
         dp[0][0] = 1;
         for (int k = 1; k <= K; k++) {
-            dp[k][0] = (long) Math.pow(M + 1, k);
+            dp[k][0] = (long)Math.pow(M + 1, k);
+        }
+        for (int k = 1; k <= K; k++) {
             for (int n = 1; n <= N; n++) {
-
-
-
-                int ways = 0;
-                for (int cut = 0; cut <= M; cut++) {
-                    ways += process(N - cut, M, K - 1);
+                dp[k][n] = dp[k - 1][n];
+                dp[k][n] += dp[k][n - 1];
+                if(n - M - 1 > 0) {
+                    dp[k][n] -= dp[k - 1][n - M - 1];
+                }else {
+                    dp[k][n] -= Math.pow(M + 1,k - 1);
                 }
-                return ways;
-
-
-
-
             }
         }
-
+        return dp[K][N] / all;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
     public static void main(String[] args) {
         int NMax = 10;
         int MMax = 10;
@@ -121,8 +105,8 @@ public class KillMonster {
             int K = (int) (Math.random() * KMax);
             double ans1 = right(N, M, K);
             double ans2 = dp(N, M, K);
-            double ans3 = dp1(N, M, K);
-            if (ans1 != ans2 || ans3 != ans1) {
+            double ans3 = dp2(N, M, K);
+            if (ans1 != ans2 || ans1 != ans3) {
                 System.out.println("Oops!");
                 System.out.println(ans1);
                 System.out.println(ans2);
