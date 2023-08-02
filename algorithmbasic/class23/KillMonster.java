@@ -50,21 +50,21 @@ public class KillMonster {
         long[][] dp = new long[K + 1][N + 1];
         dp[0][0] = 1;
         for (int k = 1; k <= K; k++) {
-            dp[k][0] = (long)Math.pow(M + 1, k);
+            dp[k][0] = (long) Math.pow(M + 1, k);
         }
         for (int k = 1; k <= K; k++) {
             for (int n = 1; n <= N; n++) {
                 int ways = 0;
                 for (int cut = 0; cut <= M; cut++) {
-                    if(n - cut > 0) {
+                    if (n - cut > 0) {
                         ways += dp[k - 1][n - cut];
-                    }else {
+                    } else {
                         //注意这个地方是k-1,因为这次已经砍了，所以还剩下k-1次砍的机会。
                         //这次砍完之后，怪兽死了，那还剩下M+1的K-1次方个排列。这次的不计算在内，因为我已经砍了。
                         ways += Math.pow(M + 1, k - 1);
                     }
                 }
-                dp[k][n] =  ways;
+                dp[k][n] = ways;
             }
         }
         return dp[K][N] / all;
@@ -79,21 +79,23 @@ public class KillMonster {
         long[][] dp = new long[K + 1][N + 1];
         dp[0][0] = 1;
         for (int k = 1; k <= K; k++) {
-            dp[k][0] = (long)Math.pow(M + 1, k);
+            dp[k][0] = (long) Math.pow(M + 1, k);
         }
         for (int k = 1; k <= K; k++) {
             for (int n = 1; n <= N; n++) {
                 dp[k][n] = dp[k - 1][n];
                 dp[k][n] += dp[k][n - 1];
-                if(n - M - 1 > 0) {
+                if (n - M - 1 > 0) {
                     dp[k][n] -= dp[k - 1][n - M - 1];
-                }else {
-                    dp[k][n] -= Math.pow(M + 1,k - 1);
+                } else {
+                    //拿不到格子情况数仍需要减掉，因为越界的时候有加和。
+                    dp[k][n] -= Math.pow(M + 1, k - 1);
                 }
             }
         }
         return dp[K][N] / all;
     }
+
     public static void main(String[] args) {
         int NMax = 10;
         int MMax = 10;
