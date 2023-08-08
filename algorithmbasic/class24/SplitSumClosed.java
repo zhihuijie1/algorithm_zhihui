@@ -67,7 +67,6 @@ public class SplitSumClosed {
     }
 
 
-
     public static int[] randomArray(int len, int value) {
         int[] arr = new int[len];
         for (int i = 0; i < arr.length; i++) {
@@ -103,5 +102,4 @@ public class SplitSumClosed {
         }
         System.out.println("测试结束");
     }
-
 }
