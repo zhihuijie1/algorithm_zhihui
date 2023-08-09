@@ -112,49 +112,6 @@ public class SplitSumClosedSizeHalf {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // for test
     public static int[] randomArray(int len, int value) {
         int[] arr = new int[len];
