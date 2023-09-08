@@ -15,7 +15,7 @@ public class SlidingWindowMaxArray {
     //(L,R]
     public static int[] getMaxWindow(int[] arr, int w) {
         //过滤非法条件
-        if (arr == null || arr.length <= w || w < 1) {
+        if (arr == null || arr.length < w || w < 1) {
             return null;
         }
         //创建存储返回值的数组
@@ -104,11 +104,11 @@ public class SlidingWindowMaxArray {
         return res;
     }
 
-/*    public static void main(String[] args) {
+    public static void main(String[] args) {
         int testTime = 100000;
-        int maxSize = 10;
-        int maxValue = 10;
-        //System.out.println("test begin");
+        int maxSize = 100;
+        int maxValue = 100;
+        System.out.println("test begin");
         for (int i = 0; i < testTime; i++) {
             int[] arr = generateRandomArray(maxSize, maxValue);
             //System.out.println(Arrays.toString(arr));
@@ -117,18 +117,19 @@ public class SlidingWindowMaxArray {
             int[] ans2 = right(arr, w);
             if (!isEqual(ans1, ans2)) {
                 System.out.println(Arrays.toString(arr));
+                System.out.println(w);
                 System.out.println("Oops!");
                 break;
             }
         }
         System.out.println("test finish");
-    }*/
-
-    public static void main(String[] args) {
-        //int[] arr = {4,3,5,4,3,3,6,7};
-        int[] arr = {9, 0, 7, 7, 5, 0, 4};
-        int w = 3;
-        int[] res = getMaxWindow(arr,w);
-        System.out.println(Arrays.toString(res));
     }
+
+    /*public static void main(String[] args) {
+        //int[] arr = {4,3,5,4,3,3,6,7};
+        int[] arr = {3, 6, 7, 3, 0, 0, 5, 2, 0, 7};
+        int w = 10;
+        int[] res = right(arr,w);
+        System.out.println(Arrays.toString(res));
+    }*/
 }
