@@ -124,12 +124,4 @@ public class SlidingWindowMaxArray {
         }
         System.out.println("test finish");
     }
-
-    /*public static void main(String[] args) {
-        //int[] arr = {4,3,5,4,3,3,6,7};
-        int[] arr = {3, 6, 7, 3, 0, 0, 5, 2, 0, 7};
-        int w = 10;
-        int[] res = right(arr,w);
-        System.out.println(Arrays.toString(res));
-    }*/
 }
