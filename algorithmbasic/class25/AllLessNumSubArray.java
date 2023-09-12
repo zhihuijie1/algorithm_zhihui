@@ -23,30 +23,30 @@ public class AllLessNumSubArray {
             //R不回退
             while (R < arr.length) {
                 //维护大端双端队列
-                while (!maxWindow.isEmpty() && arr[R] > maxWindow.peekLast()) {
+                while (!maxWindow.isEmpty() && arr[R] >= arr[maxWindow.peekLast()]) {
                     maxWindow.pollLast();
                 }
                 maxWindow.addLast(R);
 
                 //维护小端双端队列
-                while (!minWindow.isEmpty() && arr[R] < minWindow.peekLast()) {
+                while (!minWindow.isEmpty() && arr[R] <= arr[minWindow.peekLast()]) {
                     minWindow.pollLast();
                 }
                 minWindow.addLast(R);
 
                 //进行条件判断
                 if (arr[maxWindow.peekFirst()] - arr[minWindow.peekFirst()] > sum) {
-                    count += R - L;
-                    while (!maxWindow.isEmpty() && maxWindow.peekFirst() <= L) {
-                        maxWindow.pollFirst();
-                    }
-                    while (!minWindow.isEmpty() && minWindow.peekFirst() <= L) {
-                        minWindow.pollFirst();
-                    }
                     break;
                 } else {
                     R++;
                 }
+            }
+            count += R - L;
+            while (!maxWindow.isEmpty() && maxWindow.peekFirst() <= L) {
+                maxWindow.pollFirst();
+            }
+            while (!minWindow.isEmpty() && minWindow.peekFirst() <= L) {
+                minWindow.pollFirst();
             }
         }
         return count;
@@ -116,4 +116,13 @@ public class AllLessNumSubArray {
         System.out.println("测试结束");
 
     }
+
+
+    /*public static void main(String[] args) {
+        int[] arr = {3, 7, 4, -6, -5};
+        int sum = 13; //right -> 15
+        int nub = num(arr, sum);
+        System.out.println(nub);
+
+    }*/
 }
