@@ -33,7 +33,7 @@ public class GasStation {
                 minWindow.addLast(R);
                 R++;
             }
-            if((L != 0 && res[minWindow.peekFirst()] - res[L - 1] >= 0) || (L == 0 && res[minWindow.peekFirst()] > 0)) {
+            if((L != 0 && res[minWindow.peekFirst()] - res[L - 1] >= 0) || (L == 0 && res[minWindow.peekFirst()] >= 0)) {
                 return L;
             }
             while(!minWindow.isEmpty() && minWindow.peekFirst() <= L) {
@@ -45,9 +45,9 @@ public class GasStation {
 
 
     public static void main(String[] args) {
-        int[] gas = {1,2,3,4,5};
-        int[] cost = {3,4,5,1,2};
+        int[] gas = {3,1,1};
+        int[] cost = {1,2,2};
         int ans = canCompleteCircuit(gas, cost);
-        System.out.println(ans); //3
+        System.out.println(ans); //0
     }
 }
