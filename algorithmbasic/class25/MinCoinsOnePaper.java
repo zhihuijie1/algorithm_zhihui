@@ -9,6 +9,6 @@ package algorithmbasic.class25;
  */
 public class MinCoinsOnePaper {
     public static int minCoins(int[] arr, int aim) {
-
+        
     }
 }
