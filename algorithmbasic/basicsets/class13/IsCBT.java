@@ -1,4 +1,4 @@
-package algorithmbasic.class13;
+package algorithmbasic.basicsets.class13;
 //判断二叉树是不是完全二叉树
 import java.util.LinkedList;
 import java.util.Queue;

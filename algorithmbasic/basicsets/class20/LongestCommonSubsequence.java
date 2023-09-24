@@ -1,4 +1,4 @@
-package algorithmbasic.class20;
+package algorithmbasic.basicsets.class20;
 
 /**
  * 给定两个字符串str1和str2，

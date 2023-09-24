@@ -1,4 +1,4 @@
-package algorithmbasic.class8;
+package algorithmbasic.basicsets.class8;
 /*
 
 暴力方法：自写

@@ -1,4 +1,4 @@
-package algorithmbasic.class17;
+package algorithmbasic.basicsets.class17;
 
 public class Edge {
     /**

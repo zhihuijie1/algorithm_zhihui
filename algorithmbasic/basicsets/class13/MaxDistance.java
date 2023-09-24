@@ -1,4 +1,4 @@
-package algorithmbasic.class13;
+package algorithmbasic.basicsets.class13;
 
 // 求二叉树的最大距离
 public class MaxDistance {

@@ -1,4 +1,4 @@
-package algorithmbasic.class6;
+package algorithmbasic.basicsets.class6;
 // 区间和的个数
 // https://leetcode.com/problems/count-of-range-sum/
 

@@ -1,4 +1,4 @@
-package algorithmbasic.class14;
+package algorithmbasic.basicsets.class14;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

@@ -1,4 +1,4 @@
-package algorithmbasic.class16;
+package algorithmbasic.basicsets.class16;
 // https://leetcode.cn/problems/number-of-islands-ii/
 
 import java.util.ArrayList;

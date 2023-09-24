@@ -1,4 +1,4 @@
-package algorithmbasic.class21;
+package algorithmbasic.basicsets.class21;
 
 /**
  * 请同学们自行搜索或者想象一个象棋的棋盘，

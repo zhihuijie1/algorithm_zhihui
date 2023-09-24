@@ -1,4 +1,4 @@
-package algorithmbasic.class22;
+package algorithmbasic.basicsets.class22;
 
 
 import java.util.HashMap;

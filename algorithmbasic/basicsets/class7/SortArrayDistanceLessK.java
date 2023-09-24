@@ -1,4 +1,4 @@
-package algorithmbasic.class7;
+package algorithmbasic.basicsets.class7;
 
 import java.util.Arrays;
 import java.util.PriorityQueue;

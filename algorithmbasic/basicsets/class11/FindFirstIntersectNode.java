@@ -1,4 +1,4 @@
-package algorithmbasic.class11;
+package algorithmbasic.basicsets.class11;
 
 /*
 给定两个可能有环也可能无环的单链表，头节点head1和head2

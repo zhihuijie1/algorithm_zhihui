@@ -1,4 +1,4 @@
-package algorithmbasic.class9;
+package algorithmbasic.basicsets.class9;
 
 // 前缀树
 public class Trie {

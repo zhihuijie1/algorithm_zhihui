@@ -1,4 +1,4 @@
-package algorithmbasic.class25;
+package algorithmbasic.basicsets.class25;
 
 /**
  * 动态规划中利用窗口内最大值或最小值更新结构做优化（难）

@@ -1,4 +1,4 @@
-package algorithmbasic.class20;
+package algorithmbasic.basicsets.class20;
 
 /**
  * 规定1和A对应、2和B对应、3和C对应...26和Z对应

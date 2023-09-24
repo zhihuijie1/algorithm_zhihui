@@ -1,4 +1,4 @@
-package algorithmbasic.class6;
+package algorithmbasic.basicsets.class6;
 
 // 前缀和数组
 public class PrefixArray {

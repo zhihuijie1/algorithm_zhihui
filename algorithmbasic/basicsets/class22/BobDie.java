@@ -1,4 +1,4 @@
-package algorithmbasic.class22;
+package algorithmbasic.basicsets.class22;
 
 /**
  * 给定5个参数，N，M，row，col，k

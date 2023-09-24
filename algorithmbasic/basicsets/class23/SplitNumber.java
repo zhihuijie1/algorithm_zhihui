@@ -1,4 +1,4 @@
-package algorithmbasic.class23;
+package algorithmbasic.basicsets.class23;
 
 /**
  * 给定一个正数n，求n的裂开方法数，

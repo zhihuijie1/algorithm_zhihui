@@ -1,4 +1,4 @@
-package algorithmbasic.class6;
+package algorithmbasic.basicsets.class6;
 
 import java.util.Stack;
 

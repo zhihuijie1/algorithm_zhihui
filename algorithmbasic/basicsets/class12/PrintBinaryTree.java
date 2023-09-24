@@ -1,4 +1,4 @@
-package algorithmbasic.class12;
+package algorithmbasic.basicsets.class12;
 
 // 打印一个二叉树 福利
 public class PrintBinaryTree {

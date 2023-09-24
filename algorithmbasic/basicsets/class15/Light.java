@@ -1,4 +1,4 @@
-package algorithmbasic.class15;
+package algorithmbasic.basicsets.class15;
 
 /*
 给定一个字符串str，只由'X'和'.'两种字符构成

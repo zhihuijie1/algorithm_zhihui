@@ -1,4 +1,4 @@
-package algorithmbasic.class22;
+package algorithmbasic.basicsets.class22;
 
 /**
  * arr是货币数组，其中的值都是正数。再给定一个正数aim。

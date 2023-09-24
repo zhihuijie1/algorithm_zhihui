@@ -1,4 +1,4 @@
-package algorithmbasic.class11;
+package algorithmbasic.basicsets.class11;
 
 import java.util.Stack;
 

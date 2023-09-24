@@ -1,4 +1,4 @@
-package algorithmbasic.class23;
+package algorithmbasic.basicsets.class23;
 
 import org.jcp.xml.dsig.internal.dom.DOMUtils;
 

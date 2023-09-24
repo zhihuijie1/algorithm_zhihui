@@ -1,4 +1,4 @@
-package algorithmbasic.class11;
+package algorithmbasic.basicsets.class11;
 
 public class Test {
     // 内部类

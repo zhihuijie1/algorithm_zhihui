@@ -1,4 +1,4 @@
-package algorithmbasic.class16;
+package algorithmbasic.basicsets.class16;
 
 //一群朋友中，有几个不相交的朋友圈
 //Leetcode题目：https://leetcode.com/problems/friend-circles/

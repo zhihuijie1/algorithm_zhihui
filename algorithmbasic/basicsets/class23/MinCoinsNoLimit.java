@@ -1,4 +1,4 @@
-package algorithmbasic.class23;
+package algorithmbasic.basicsets.class23;
 
 /**
  * arr是面值数组，其中的值都是正数且没有重复。再给定一个正数aim。

@@ -1,4 +1,4 @@
-package algorithmbasic.class17;
+package algorithmbasic.basicsets.class17;
 
 //接口转化器
 //将一些特殊结构图的表示方法转化成我们熟悉的图的表示方法。

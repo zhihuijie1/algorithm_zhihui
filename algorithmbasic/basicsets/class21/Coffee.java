@@ -1,4 +1,4 @@
-package algorithmbasic.class21;
+package algorithmbasic.basicsets.class21;
 
 import java.util.Arrays;
 import java.util.Comparator;

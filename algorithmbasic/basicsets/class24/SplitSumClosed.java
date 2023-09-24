@@ -1,4 +1,4 @@
-package algorithmbasic.class24;
+package algorithmbasic.basicsets.class24;
 
 /**
  * 给定一个正数数组arr，

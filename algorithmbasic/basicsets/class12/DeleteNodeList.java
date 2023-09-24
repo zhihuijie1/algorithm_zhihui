@@ -1,4 +1,4 @@
-package algorithmbasic.class12;
+package algorithmbasic.basicsets.class12;
 
 // 一种看似高效其实搞笑的节点删除方式
 public class DeleteNodeList {

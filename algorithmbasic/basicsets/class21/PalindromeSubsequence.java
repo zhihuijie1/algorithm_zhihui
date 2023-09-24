@@ -1,4 +1,4 @@
-package algorithmbasic.class21;
+package algorithmbasic.basicsets.class21;
 
 // 测试链接：https://leetcode.com/problems/longest-palindromic-subsequence/
 

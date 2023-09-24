@@ -1,4 +1,4 @@
-package algorithmbasic.class20;
+package algorithmbasic.basicsets.class20;
 
 /**
  * 背包问题

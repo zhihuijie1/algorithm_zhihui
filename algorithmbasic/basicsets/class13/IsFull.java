@@ -1,4 +1,4 @@
-package algorithmbasic.class13;
+package algorithmbasic.basicsets.class13;
 
 // 判断二叉树是否是满二叉树
 public class IsFull {

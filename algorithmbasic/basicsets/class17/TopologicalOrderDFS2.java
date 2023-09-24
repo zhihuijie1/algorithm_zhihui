@@ -1,4 +1,4 @@
-package algorithmbasic.class17;
+package algorithmbasic.basicsets.class17;
 //图的拓扑排序方法二
 
 import java.util.*;

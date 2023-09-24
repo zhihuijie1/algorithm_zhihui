@@ -1,4 +1,4 @@
-package algorithmbasic.class13;
+package algorithmbasic.basicsets.class13;
 
 //判断二叉树是不是平衡二叉树
 public class IsBalanced {

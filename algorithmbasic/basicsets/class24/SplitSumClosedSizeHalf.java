@@ -1,4 +1,4 @@
-package algorithmbasic.class24;
+package algorithmbasic.basicsets.class24;
 
 /**
  * 给定一个正数数组arr，请把arr中所有的数分成两个集合

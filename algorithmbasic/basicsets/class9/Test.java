@@ -1,4 +1,4 @@
-package algorithmbasic.class9;
+package algorithmbasic.basicsets.class9;
 
 public class Test {
     public static void main(String[] args) {

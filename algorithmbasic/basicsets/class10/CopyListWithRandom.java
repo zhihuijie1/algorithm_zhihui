@@ -1,4 +1,4 @@
-package algorithmbasic.class10;
+package algorithmbasic.basicsets.class10;
 
 import java.util.HashMap;
 

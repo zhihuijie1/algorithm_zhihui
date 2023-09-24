@@ -1,4 +1,4 @@
-package algorithmbasic.class22;
+package algorithmbasic.basicsets.class22;
 
 /**
  * 给定一个二维数组matrix，一个人必须从左上角出发，最后到达右下角

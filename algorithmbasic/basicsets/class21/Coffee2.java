@@ -1,4 +1,4 @@
-package algorithmbasic.class21;
+package algorithmbasic.basicsets.class21;
 
 import javax.naming.ldap.LdapReferralException;
 import java.util.Comparator;

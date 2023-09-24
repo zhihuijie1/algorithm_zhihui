@@ -1,4 +1,4 @@
-package algorithmbasic.class7;
+package algorithmbasic.basicsets.class7;
 
 public class Heap {
     //大根堆

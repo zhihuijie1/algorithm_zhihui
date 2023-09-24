@@ -1,4 +1,4 @@
-package algorithmbasic.class24;
+package algorithmbasic.basicsets.class24;
 
 /**
  * N皇后问题是指在N*N的棋盘上要摆N个皇后，

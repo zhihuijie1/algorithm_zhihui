@@ -1,4 +1,4 @@
-package algorithmbasic.class8;
+package algorithmbasic.basicsets.class8;
 
 import java.util.ArrayList;
 import java.util.Comparator;
