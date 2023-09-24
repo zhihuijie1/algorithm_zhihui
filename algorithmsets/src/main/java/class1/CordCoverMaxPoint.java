@@ -30,9 +30,8 @@ public class CordCoverMaxPoint {
                 L = mid + 1;
             }
         }
-        return R;//?
+        return R;//
     }
-
 
     //滑动窗口的方法
     public static int maxPoint2(int[] arr, int Long) {
@@ -49,9 +48,6 @@ public class CordCoverMaxPoint {
         }
         return res;
     }
-
-
-
 
     // for test
     public static int test(int[] arr, int L) {
@@ -98,20 +94,4 @@ public class CordCoverMaxPoint {
         }
 
     }
-
-
-    public static int maxPoint3(int[] arr, int L) {
-        int left = 0;
-        int right = 0;
-        int N = arr.length;
-        int max = 0;
-        while (left < N) {
-            while (right < N && arr[right] - arr[left] <= L) {
-                right++;
-            }
-            max = Math.max(max, right - (left++));
-        }
-        return max;
-    }
-
 }
