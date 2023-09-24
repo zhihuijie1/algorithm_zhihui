@@ -1,5 +1,4 @@
-package class1;
-
+package algorithmbasic.questionsets.class1;
 import java.util.Arrays;
 import java.util.LinkedList;
 
