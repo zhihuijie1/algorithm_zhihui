@@ -21,15 +21,17 @@ public class CordCoverMaxPoint {
     //寻找最靠近value的所对应的数组的下标是多少。
     public static int nearestIndex(int[] arr, int R, int value) {
         int L = 0;
+        int index = R;/**---------注意-----*/
         while (L <= R) {
             int mid = L + ((R - L) >> 1);
-            if (arr[mid] > value) {
+            if (arr[mid] >= value) {/**-------- >=号 --------*/
+                index = mid;
                 R = mid - 1;
             } else {
                 L = mid + 1;
             }
         }
-        return R;//
+        return index;
     }
 
     //滑动窗口的方法
@@ -91,6 +93,7 @@ public class CordCoverMaxPoint {
                 break;
             }
         }
+        System.out.println("test end");
 
     }
 }
