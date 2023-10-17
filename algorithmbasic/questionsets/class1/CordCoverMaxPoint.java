@@ -94,6 +94,5 @@ public class CordCoverMaxPoint {
             }
         }
         System.out.println("test end");
-
     }
 }
