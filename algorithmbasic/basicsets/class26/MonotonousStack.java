@@ -51,9 +51,10 @@ public class MonotonousStack {
             //生成一个没有重复值的数组。
             int[] arr1 = getRandomArrayNoRepeat(size);
             int[][] result1 = getNearLessNoRepeat(arr1);
-            int[][] rightresult = rightway(arr1);
-            if (isequals(result1, rightresult)) {
+            int[][] rightresult = rightWay2(arr1);
+            if (!isequals(result1, rightresult)) {
                 System.out.println("oops");
+                printArray(arr1);
                 break;
             }
         }
@@ -66,18 +67,66 @@ public class MonotonousStack {
             return false;
         }
         for (int i = 0; i < result1.length; i++) {
-            if (result1[i][0] != rightresult[i][0]) {
-                return false;
-            }
-            if (result1[i][1] != rightresult[i][1]) {
+            if (result1[i][0] != rightresult[i][0] || result1[i][1] != rightresult[i][1]) {
                 return false;
             }
         }
         return true;
     }
 
-    //暴力解
-    private static int[][] rightway(int[] arr1) {
+    //生成无重复值数组。
+    private static int[] getRandomArrayNoRepeat(int size) {
+        int[] arr = new int[(int)(Math.random() * size) + 1]; //数组长度区间[1,10]
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = i;
+        }
+        for (int i = 0; i < arr.length; i++) { //假设数组的长度是5
+            int index = (int) (Math.random() * arr.length); //随机下标范围：[0,4]
+            //交换i下标与index下标位置的元素。
+            int temp = arr[index];
+            arr[index] = arr[i];
+            arr[i] = temp;
+        }
+        return arr;
+    }
+
+    public static int[][] rightWay2(int[] arr) {
+        int[][] res = new int[arr.length][2];
+        for (int i = 0; i < arr.length; i++) {
+            int leftLessIndex = -1;
+            int rightLessIndex = -1;
+            int cur = i - 1;
+            while (cur >= 0) {
+                if (arr[cur] < arr[i]) {
+                    leftLessIndex = cur;
+                    break;
+                }
+                cur--;
+            }
+            cur = i + 1;
+            while (cur < arr.length) {
+                if (arr[cur] < arr[i]) {
+                    rightLessIndex = cur;
+                    break;
+                }
+                cur++;
+            }
+            res[i][0] = leftLessIndex;
+            res[i][1] = rightLessIndex;
+        }
+        return res;
+    }
+
+    //打印数组
+    public static void printArray(int[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
+
+    //错误的暴力解，因为没有考虑无解的情况。
+    /*private static int[][] rightway(int[] arr1) {
         int[][] result = new int[arr1.length][2];
         for (int i = 0; i < arr1.length; i++) {
             //寻找右侧距离最近且小的数。
@@ -102,21 +151,5 @@ public class MonotonousStack {
             }
         }
         return result;
-    }
-
-    //生成无重复值数组。
-    private static int[] getRandomArrayNoRepeat(int size) {
-        int[] arr = new int[(int) Math.random() * size + 1]; //数组长度区间[1,10]
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = i;
-        }
-        for (int i = 0; i < arr.length; i++) { //假设数组的长度是5
-            int index = (int) (Math.random() * arr.length); //随机下标范围：[0,4]
-            //交换i下标与index下标位置的元素。
-            int temp = arr[index];
-            arr[index] = arr[i];
-            arr[i] = temp;
-        }
-        return arr;
-    }
+    }*/
 }
