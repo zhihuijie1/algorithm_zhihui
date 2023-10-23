@@ -3,7 +3,9 @@ package algorithmbasic.basicsets.class26;
 //功能：数组中任何一个位置，找到该位置右边距离最近的且比该位置小的数，与此同时找到该位置左边距离最近的且比该位置小的数。
 //单调栈的设置：从栈低到栈顶存放数字由小到大。
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Stack;
 
 // arr = [ 3, 1, 2, 3]
@@ -41,6 +43,32 @@ public class MonotonousStack {
         return result;
     }
 
+    //有重复值情况下实现遍历数组中的每一个位置，然后确定当前位置左右两边距离最近且小的数。
+    public static int[][] getNearLess(int[] arr) {
+        //存放数组下标。
+        Stack<List<Integer>> stack = new Stack<>();
+        int[][] result = new int[arr.length][2];
+        for (int i = 0; i < arr.length; i++) {
+            //当前位置的数小于栈顶元素。
+            while (!stack.isEmpty() && arr[i] < arr[stack.peek().get(stack.peek().size()-1)]) {
+                List<Integer> list = stack.pop();
+                for (int j = 0; j < list.size(); j++) {
+                    int k = list.get(j);
+                    result[k][0] = stack.isEmpty() ? -1 : arr[stack.peek().get(stack.peek().size()-1)];
+                    result[k][1] = arr[i];
+                }
+            }
+            List<Integer> list = new ArrayList<>();
+            list.add(i);
+            stack.push(list);
+            //当前位置的数大于栈顶元素
+            //当前位置的数等于栈顶元素。
+            if(arr[i] == arr[stack.peek().get(stack.peek().size()-1)]) {
+                stack.peek().add(i);
+            }
+        }
+    }
+
     //------------------------for test------------------------
     public static void main(String[] args) {
         int size = 10;
@@ -76,7 +104,7 @@ public class MonotonousStack {
 
     //生成无重复值数组。
     private static int[] getRandomArrayNoRepeat(int size) {
-        int[] arr = new int[(int)(Math.random() * size) + 1]; //数组长度区间[1,10]
+        int[] arr = new int[(int) (Math.random() * size) + 1]; //数组长度区间[1,10]
         for (int i = 0; i < arr.length; i++) {
             arr[i] = i;
         }
