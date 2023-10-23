@@ -54,19 +54,28 @@ public class MonotonousStack {
                 List<Integer> list = stack.pop();
                 for (int j = 0; j < list.size(); j++) {
                     int k = list.get(j);
-                    result[k][0] = stack.isEmpty() ? -1 : arr[stack.peek().get(stack.peek().size()-1)];
-                    result[k][1] = arr[i];
+                    result[k][0] = stack.isEmpty() ? -1 : stack.peek().get(stack.peek().size()-1);
+                    result[k][1] = i;
                 }
             }
-            List<Integer> list = new ArrayList<>();
-            list.add(i);
-            stack.push(list);
             //当前位置的数大于栈顶元素
-            //当前位置的数等于栈顶元素。
-            if(arr[i] == arr[stack.peek().get(stack.peek().size()-1)]) {
+            if(stack.isEmpty() || arr[i] > arr[stack.peek().get(stack.peek().size()-1)]) {
+                List<Integer> list = new ArrayList<>();
+                list.add(i);
+                stack.push(list);
+            }else if(arr[i] == arr[stack.peek().get(stack.peek().size()-1)]) {//当前位置的数等于栈顶元素。
                 stack.peek().add(i);
             }
         }
+        while(!stack.isEmpty()) {
+            List<Integer> list = stack.pop();
+            for (int j = 0; j < list.size(); j++) {
+                int k = list.get(j);
+                result[k][0] = stack.isEmpty() ? -1 : stack.peek().get(stack.peek().size()-1);
+                result[k][1] = -1;
+            }
+        }
+        return result;
     }
 
     //------------------------for test------------------------
@@ -79,8 +88,9 @@ public class MonotonousStack {
             //生成一个没有重复值的数组。
             int[] arr1 = getRandomArrayNoRepeat(size);
             int[][] result1 = getNearLessNoRepeat(arr1);
+            int[][] result2 = getNearLess(arr1);
             int[][] rightresult = rightWay2(arr1);
-            if (!isequals(result1, rightresult)) {
+            if (!isequals(result2, rightresult)) {
                 System.out.println("oops");
                 printArray(arr1);
                 break;
