@@ -50,28 +50,28 @@ public class MonotonousStack {
         int[][] result = new int[arr.length][2];
         for (int i = 0; i < arr.length; i++) {
             //当前位置的数小于栈顶元素。
-            while (!stack.isEmpty() && arr[i] < arr[stack.peek().get(stack.peek().size()-1)]) {
+            while (!stack.isEmpty() && arr[i] < arr[stack.peek().get(stack.peek().size() - 1)]) {
                 List<Integer> list = stack.pop();
                 for (int j = 0; j < list.size(); j++) {
                     int k = list.get(j);
-                    result[k][0] = stack.isEmpty() ? -1 : stack.peek().get(stack.peek().size()-1);
+                    result[k][0] = stack.isEmpty() ? -1 : stack.peek().get(stack.peek().size() - 1);
                     result[k][1] = i;
                 }
             }
             //当前位置的数大于栈顶元素
-            if(stack.isEmpty() || arr[i] > arr[stack.peek().get(stack.peek().size()-1)]) {
+            if (stack.isEmpty() || arr[i] > arr[stack.peek().get(stack.peek().size() - 1)]) {
                 List<Integer> list = new ArrayList<>();
                 list.add(i);
                 stack.push(list);
-            }else if(arr[i] == arr[stack.peek().get(stack.peek().size()-1)]) {//当前位置的数等于栈顶元素。
+            } else if (arr[i] == arr[stack.peek().get(stack.peek().size() - 1)]) {//当前位置的数等于栈顶元素。
                 stack.peek().add(i);
             }
         }
-        while(!stack.isEmpty()) {
+        while (!stack.isEmpty()) {
             List<Integer> list = stack.pop();
             for (int j = 0; j < list.size(); j++) {
                 int k = list.get(j);
-                result[k][0] = stack.isEmpty() ? -1 : stack.peek().get(stack.peek().size()-1);
+                result[k][0] = stack.isEmpty() ? -1 : stack.peek().get(stack.peek().size() - 1);
                 result[k][1] = -1;
             }
         }
