@@ -23,13 +23,13 @@ public class AllTimesMinToMax {
      */
     public static int max2(int[] arr) {
         //建设一个前缀和数组
-        int[] sumArr = new int[arr.length];
+        long[] sumArr = new long[arr.length];
         sumArr[0] = arr[0];
         for (int i = 1; i < arr.length; i++) {
             sumArr[i] = sumArr[i - 1] + arr[i];
         }
         Stack<Integer> stack = new Stack<>();
-        int Max = Integer.MIN_VALUE;
+        long Max = Integer.MIN_VALUE;
         for (int i = 0; i < arr.length; i++) {
             //判断当前元素与栈顶元素值的大小
             if (stack.isEmpty() || arr[i] > arr[stack.peek()]) {
@@ -42,7 +42,7 @@ public class AllTimesMinToMax {
                 int leftBoarder = stack.isEmpty() ? -1 : stack.peek();
                 int rightBorder = i;
                 //如果leftBoarder==-1数组越界。
-                int sum = leftBoarder == -1 ? sumArr[rightBorder - 1] : sumArr[rightBorder - 1] - sumArr[leftBoarder];
+                long sum = leftBoarder == -1 ? sumArr[rightBorder - 1] : sumArr[rightBorder - 1] - sumArr[leftBoarder];
                 Max = Math.max(sum * arr[j], Max);
             }
             stack.push(i);
@@ -53,22 +53,22 @@ public class AllTimesMinToMax {
             int leftBoarder = stack.isEmpty() ? -1 : stack.peek();
             int rightBorder = arr.length;
             //如果leftBoarder==-1数组越界。
-            int sum = leftBoarder == -1 ? sumArr[rightBorder - 1] : sumArr[rightBorder - 1] - sumArr[leftBoarder];
+            long sum = leftBoarder == -1 ? sumArr[rightBorder - 1] : sumArr[rightBorder - 1] - sumArr[leftBoarder];
             Max = Math.max(sum * arr[j], Max);
         }
-        return Max;
+        return (int) (Max % 1000000007);
     }
 
     // -------------------- for test ------------------------
     public static void main(String[] args) {
         int testTime = 20000;
-        int size = 7;
+        int size = 100;
         int max = 100;
         System.out.println("Test begin");
         for (int i = 0; i < testTime; i++) {
             //生成一个有重复值的数组。
-            //int[] arr = gerenareRandomArray(size, max);
-            int[] arr = {78, 86, 7, 19, 82, 89, 77};
+            int[] arr = gerenareRandomArray(size, max);
+            //int[] arr = {78, 86, 7, 19, 82, 89, 77};
             int result1 = max2(arr);
             int result2 = max1(arr);
             if (result1 != result2) {
