@@ -20,7 +20,7 @@ public class MaximalRectangle {
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[0].length; j++) {
                 //对当前行进行数组压缩
-                height[j] = map[i][j] == '0' ? 0 : i + 1;
+                height[j] = map[i][j] == '0' ? 0 : height[j] + 1; // ------------------- 小细节 ----------------
             }
             //当前行数组压缩完毕，然后进行宽度区间的锁定
             MAX = Math.max(MAX, maxRecFromBottom(height));
