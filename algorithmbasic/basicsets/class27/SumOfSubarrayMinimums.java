@@ -15,6 +15,10 @@ public class SumOfSubarrayMinimums {
      * 计算的公式：(j - leftBorder) * (rightBorder - j) * arr[j]
      * 注意：遇到相等的时候，最后一个进行结算
      */
+
+    /**
+     * 思维传统：以某一个位置做标准情况下，答案是啥，以下一个位置作为标准情况下答案是啥，将所有情况遍历一下 ，就是总的答案。
+     */
     public static int sumSubarrayMins(int[] arr) {
         Stack<Integer> stack = new Stack<>();
         int num = 0;
@@ -33,7 +37,7 @@ public class SumOfSubarrayMinimums {
             }
             stack.push(i);
         }
-        while(!stack.isEmpty()) {
+        while (!stack.isEmpty()) {
             int j = stack.pop();
             int leftBorder = stack.isEmpty() ? -1 : stack.peek();
             int rightBorder = arr.length;
@@ -46,7 +50,7 @@ public class SumOfSubarrayMinimums {
 
 
     public static void main(String[] args) {
-        int[] arr = {3,1,2,4};
+        int[] arr = {3, 1, 2, 4};
         int result = sumSubarrayMins(arr);
         System.out.println(result);
     }
