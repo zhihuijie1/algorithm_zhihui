@@ -1,6 +1,5 @@
 package algorithmbasic.basicsets.class27;
 
-import javax.swing.*;
 
 public class FibonacciProblem {
     /**
@@ -27,8 +26,8 @@ public class FibonacciProblem {
         }
         int[][] base = {{1, 1}, {1, 0}};
         int[][] res = matrixMultip(base, n - 2);
-        //return res[0][0] + res[0][1] + res[1][0] + res[1][1];
-        return res[0][0] + res[1][0];
+        return res[0][0] + res[0][1] + res[1][0] + res[1][1];
+        //return res[0][0] + res[1][0];
     }
 
 
@@ -44,8 +43,12 @@ public class FibonacciProblem {
         //res是单位矩阵
         //t ==> 存放临时的结果
         int[][] t = base;
-        for (; (p & 1) != 0; p >>= 1, t = product(t, t)) {
-            res = product(res, t);
+        while(p != 0) { // ----------------------注意
+            if((p & 1) != 0) {
+                res = product(res, t);
+            }
+            p >>= 1;
+            t = product(t, t);
         }
         return res;
     }
@@ -70,6 +73,14 @@ public class FibonacciProblem {
 
 
     public static void main(String[] args) {
-        System.out.println(f(8));
+        int result = f(7);
+        System.out.println(result);
     }
 }
+
+/**
+ * red river college : machine learning and data science -- 20wRMB(2years)
+ * full stack web development -- 16wRMB(2years)
+ * information security -- 20wRMB(2years)
+ * centennial college :cybersecurity -- 10wRMB(1year)
+ */
