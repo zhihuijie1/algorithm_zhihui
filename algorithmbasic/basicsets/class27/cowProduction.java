@@ -70,35 +70,20 @@ public class cowProduction {
                 res = product(res, t);
             }
             t = product(t, t);
-            p >>=1;
+            p >>= 1;
         }
         return res;
     }
 
     //矩阵乘法
-    /*private static int[][] product(int[][] res, int[][] t) {
-        int[][] ans = new int[res.length][t[0].length];
-        int m = res[0].length;
-        int n = res.length;
-        int k = t[0].length;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < k; j++) {
-                for (int l = 0; l < m; l++) {
-                    ans[i][j] = res[i][l] * t[l][j];
-                }
-            }
-        }
-        return ans;
-    }*/
-
-    public static int[][] product(int[][] a, int[][] b) {
-        int n = a.length;
+    private static int[][] product(int[][] a, int[][] b) {
         int m = b[0].length;
-        int k = a[0].length; // a的列数同时也是b的行数
-        int[][] ans = new int[n][m];
-        for(int i = 0 ; i < n; i++) {
-            for(int j = 0 ; j < m;j++) {
-                for(int c = 0; c < k; c++) {
+        int n = a.length;
+        int k = a[0].length;
+        int[][] ans = new int[a.length][b[0].length];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                for (int c = 0; c < k; c++) {
                     ans[i][j] += a[i][c] * b[c][j];
                 }
             }
