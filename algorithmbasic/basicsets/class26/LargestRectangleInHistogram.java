@@ -3,8 +3,7 @@ package algorithmbasic.basicsets.class26;
 import java.util.Stack;
 
 /**
- * 给定一个非负数组arr，代表直方图
- * 返回直方图的最大长方形面积
+ * 给定一个非负数组arr，代表直方图，返回直方图的最大长方形面积
  */
 public class LargestRectangleInHistogram {
     /**
