@@ -26,8 +26,8 @@ public class FibonacciProblem {
         }
         int[][] base = {{1, 1}, {1, 0}};
         int[][] res = matrixMultip(base, n - 2);
-        return res[0][0] + res[0][1] + res[1][0] + res[1][1];
-        //return res[0][0] + res[1][0];
+        //return res[0][0] + res[0][1] + res[1][0] + res[1][1];
+        return res[0][0] + res[1][0];
     }
 
 
