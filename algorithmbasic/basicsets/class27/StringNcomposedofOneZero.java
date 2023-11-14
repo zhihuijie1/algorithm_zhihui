@@ -4,6 +4,11 @@ package algorithmbasic.basicsets.class27;
  * 给定一个数N，想象只由0和1两种字符，组成的所有长度为N的字符串
  * 如果某个字符串,任何0字符的左边都有1紧挨着,认为这个字符串达标
  * 返回有多少达标的字符串
+ * <p>
+ * 用1*2的瓷砖，把N*2的区域填满
+ * 返回铺瓷砖的方法数
+ * <p>
+ * 这两道题的方法都是一样的都是与斐波那契递推公式一样的。
  */
 
 /**
@@ -21,10 +26,10 @@ package algorithmbasic.basicsets.class27;
  */
 public class StringNcomposedofOneZero {
     public static int f(int N) {
-        if(N == 1) {
+        if (N == 1) {
             return 1;
         }
-        if(N == 2) {
+        if (N == 2) {
             return 1;
         }
         int[][] base = {
@@ -70,4 +75,5 @@ public class StringNcomposedofOneZero {
     public static void main(String[] args) {
         System.out.println(f(7));
     }
+
 }
