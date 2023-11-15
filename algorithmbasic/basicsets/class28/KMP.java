@@ -13,7 +13,7 @@ public class KMP {
         int x = 0;
         int y = 0;
 
-        while (x < str1.length) {
+        while (x < str1.length && y < str2.length) {
             if (str1[x] == str2[y]) {
                 x++;
                 y++;
@@ -38,9 +38,12 @@ public class KMP {
         while (i < str2.length) {
             if (str2[cn] == str2[i - 1]) {
                 next[i++] = ++cn;
+            } else if (cn > 0) {
+                cn = next[cn];
             } else {
-
+                next[i++] = 0;
             }
         }
+        return next;
     }
 }
