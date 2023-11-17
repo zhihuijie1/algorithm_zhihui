@@ -1,5 +1,7 @@
 package algorithmbasic.basicsets.class29;
 
+import java.util.Arrays;
+
 public class Manacher {
     /**
      * manacher算法是干嘛的：给我一个字符串返回最大回文子串的长度
@@ -17,11 +19,99 @@ public class Manacher {
      *
      * 假设我现在来到了i位置，判断一下 i 与 R 的位置关系
      * -> R < I ：采用暴力的方法计算当前位置的最大回文字串半径(由中间向两边阔，一个一个的判断)
-     * -> R >=I : i'(i' i相对)的回文半径在L(RL相对)内：此时
-     *            i'的回文半径在L外：
-     *            i'的回文半径正好在L上：
+     * -> R >=I : i'(i' i相对)的回文半径在L(RL相对)内：此时i位置的半径不用计算直接等于i'的回文半径
+     *            i'的回文半径在L外：此时i位置的半径不用计算直接等于R - I
+     *            i'的回文半径正好在L上: S 1 2 3 2 1 X 4 X 1 2 3 2 1 X
+     *                                  L   I'      C       I   R
+     *                                  S != X(c左侧)
+     *                                  S != X(c右侧)
+     *                                  ==> 但是不能推出 X != X ,相反X(c左侧) == X(c右侧)
+     *                                  从R的下一个位置开始一一对比判断
      */
     public static int manacher(String s) {
+        if(s == null || s.length() == 0) {
+            return -1;
+        }
+        //对字符串进行一个预处理
+        char[] str = manacherString(s);
+        //存储每一个位置的最大回文字串的半径
+        int[] pArr = new int[str.length];
+        int max = Integer.MIN_VALUE;
+        int R = -1;//在正确位置的下一个
+        int C = -1;
+        for (int i = 0; i < str.length; i++) {
+            // i位置扩出来的答案，i位置扩的区域，至少是多大。
+            //( i - i' ) / 2 + i' == c   ==>  i' = 2 * c - i
+            pArr[i] = i < R ? Math.max(pArr[2 * C - i], R - i) : 1;
 
+            //对i'的回文半径正好在L上  以及  R < I 的情况进行暴力分析能否继续向外阔
+            while((i + pArr[i] < str.length) && (i - pArr[i] > -1) && (str[i + pArr[i]] == str[i - pArr[i]])) {
+                pArr[i]++;
+            }
+            //该阔的都阔到头了
+            if(i + pArr[i] > R) {
+                R = i + pArr[i];
+                C = i;
+            }
+            max = Math.max(max, pArr[i]);
+        }
+        return max - 1;
+    }
+
+    private static char[] manacherString(String s) {
+        char[] a = s.toCharArray();
+        char[] b = new char[a.length * 2 + 1];
+        for (int i = 0; i < b.length; i++) {
+            if(i % 2 == 0) {
+                b[i] = '#';
+            } else {
+                b[i] = a[i / 2];
+            }
+        }
+        return b;
+    }
+
+
+
+    // for test
+    public static int right(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+        char[] str = manacherString(s);
+        int max = 0;
+        for (int i = 0; i < str.length; i++) {
+            int L = i - 1;
+            int R = i + 1;
+            while (L >= 0 && R < str.length && str[L] == str[R]) {
+                L--;
+                R++;
+            }
+            max = Math.max(max, R - L - 1);
+        }
+        return max / 2;
+    }
+
+    // for test
+    public static String getRandomString(int possibilities, int size) {
+        char[] ans = new char[(int) (Math.random() * size) + 1];
+        for (int i = 0; i < ans.length; i++) {
+            ans[i] = (char) ((int) (Math.random() * possibilities) + 'a');
+        }
+        return String.valueOf(ans);
+    }
+
+    public static void main(String[] args) {
+        int possibilities = 5;
+        int strSize = 20;
+        int testTimes = 5000000;
+        System.out.println("test begin");
+        for (int i = 0; i < testTimes; i++) {
+            String str = getRandomString(possibilities, strSize);
+            if (manacher(str) != right(str)) {
+                System.out.println("Oops!");
+            }
+        }
+        System.out.println("test finish");
     }
 }
