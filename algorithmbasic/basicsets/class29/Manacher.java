@@ -19,7 +19,7 @@ public class Manacher {
      *
      * 假设我现在来到了i位置，判断一下 i 与 R 的位置关系
      * -> R < I ：采用暴力的方法计算当前位置的最大回文字串半径(由中间向两边阔，一个一个的判断)
-     * -> R >=I : i'(i' i相对)的回文半径在L(RL相对)内：此时i位置的半径不用计算直接等于i'的回文半径
+     * -> R >=I : i'(i' i相对)的回文半径在L(RL相对)内：此时i位置的半径不用计算直接等于i'的回文半径  pArr(i')
      *            i'的回文半径在L外：此时i位置的半径不用计算直接等于R - I
      *            i'的回文半径正好在L上: S 1 2 3 2 1 X 4 X 1 2 3 2 1 X
      *                                  L   I'      C       I   R
@@ -30,7 +30,7 @@ public class Manacher {
      */
     public static int manacher(String s) {
         if(s == null || s.length() == 0) {
-            return -1;
+            return 0;
         }
         //对字符串进行一个预处理
         char[] str = manacherString(s);
@@ -42,7 +42,7 @@ public class Manacher {
         for (int i = 0; i < str.length; i++) {
             // i位置扩出来的答案，i位置扩的区域，至少是多大。
             //( i - i' ) / 2 + i' == c   ==>  i' = 2 * c - i
-            pArr[i] = i < R ? Math.max(pArr[2 * C - i], R - i) : 1;
+            pArr[i] = i < R ? Math.min(pArr[2 * C - i], R - i) : 1; //------------注意：这个地方取最小值，因为parr[i'] > R-L的时候应该取R-L而不是更大的parr[i']
 
             //对i'的回文半径正好在L上  以及  R < I 的情况进行暴力分析能否继续向外阔
             while((i + pArr[i] < str.length) && (i - pArr[i] > -1) && (str[i + pArr[i]] == str[i - pArr[i]])) {
@@ -71,7 +71,7 @@ public class Manacher {
         return b;
     }
 
-
+    // ---------------------- for test -------------------------
 
     // for test
     public static int right(String s) {
@@ -103,13 +103,18 @@ public class Manacher {
 
     public static void main(String[] args) {
         int possibilities = 5;
-        int strSize = 20;
+        int strSize = 10;
         int testTimes = 5000000;
         System.out.println("test begin");
         for (int i = 0; i < testTimes; i++) {
             String str = getRandomString(possibilities, strSize);
-            if (manacher(str) != right(str)) {
-                System.out.println("Oops!");
+            int a = manacher(str);
+            int b = right(str);
+            if (a != b) {
+                System.out.println("str" + str);
+                System.out.println(a);
+                System.out.println(b);
+                break;
             }
         }
         System.out.println("test finish");
