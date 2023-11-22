@@ -1,19 +1,20 @@
-package algorithmbasic.questionsets.class1.class2;
+package algorithmbasic.questionsets.class1.MakeACalculator;
 
 import java.util.HashMap;
-        import java.util.LinkedList;
-        import java.util.Map;
+import java.util.LinkedList;
+import java.util.Map;
 
 /**
+ * @author mengchuan.li
  * @Title: MyUtils.java
  * @desc: 计算器工具类
- * @author mengchuan.li
  * @date 2016年11月14日 下午3:20:44
  */
 public class MyUtils {
     public static final int FORMAT_MAX_LENGTH = 500;// 表达式最大长度限制
     public static final int RESULT_DECIMAL_MAX_LENGTH = 8;// 结果小数点最大长度限制
     public static final Map<Character, Integer> symLvMap = new HashMap<Character, Integer>();// 符号优先级map
+
     static {
         symLvMap.put('=', 0);
         symLvMap.put('-', 1);
@@ -27,13 +28,10 @@ public class MyUtils {
     }
 
     /**
-     *
-     * @Title: checkFormat
-     * @Desc: 检查表达式格式是否正确
-     *
      * @param str 表达式
      * @return true表达式正确，false表达式错误
-     *
+     * @Title: checkFormat
+     * @Desc: 检查表达式格式是否正确
      */
     public static boolean checkFormat(String str) {
         // 校验是否以“=”结尾
@@ -71,13 +69,10 @@ public class MyUtils {
     }
 
     /**
-     *
-     * @Title: change2StandardFormat
-     * @Desc: 处理表达式格式为标准格式，如2(-1+2)(3+4)改为2*(0-1+2)*(3+4)
-     *
      * @param str
      * @return 标准表达式
-     *
+     * @Title: change2StandardFormat
+     * @Desc: 处理表达式格式为标准格式，如2(-1+2)(3+4)改为2*(0-1+2)*(3+4)
      */
     public static String change2StandardFormat(String str) {
         StringBuilder sb = new StringBuilder();
@@ -98,12 +93,10 @@ public class MyUtils {
     }
 
     /**
-     *
-     * @Title: isBracketCouple
-     * @Desc: 校验括号是否配对
      * @param str
      * @return 参数
-     *
+     * @Title: isBracketCouple
+     * @Desc: 校验括号是否配对
      */
     public static boolean isBracketCouple(String str) {
         LinkedList<Character> stack = new LinkedList<>();
@@ -126,13 +119,10 @@ public class MyUtils {
     }
 
     /**
-     *
-     * @Title: formatResult
-     * @Desc: 处理计算结果的显示
-     *
      * @param str 计算结果
      * @return 规范的计算结果
-     *
+     * @Title: formatResult
+     * @Desc: 处理计算结果的显示
      */
     public static String formatResult(String str) {
         String[] ss = str.split("\\.");
@@ -151,13 +141,10 @@ public class MyUtils {
     }
 
     /**
-     *
-     * @Title: isCorrectChar
-     * @Desc: 校验字符是否合法
-     *
      * @param c
      * @return 参数
-     *
+     * @Title: isCorrectChar
+     * @Desc: 校验字符是否合法
      */
     public static boolean isCorrectChar(Character c) {
         if (('0' <= c && c <= '9') || c == '-' || c == '+' || c == '*' || c == '/' || c == '(' || c == ')'
@@ -168,13 +155,10 @@ public class MyUtils {
     }
 
     /**
-     *
-     * @Title: isCharNum
-     * @Desc: 判断是否为数字
-     *
      * @param c
      * @return
-     *
+     * @Title: isCharNum
+     * @Desc: 判断是否为数字
      */
     public static boolean isCharNum(Character c) {
         if (c >= '0' && c <= '9') {
@@ -185,42 +169,33 @@ public class MyUtils {
     }
 
     /**
-     *
-     * @Title: plus
-     * @Desc: 加
-     *
      * @param num1
      * @param num2
      * @return 计算结果
-     *
+     * @Title: plus
+     * @Desc: 加
      */
     public static double plus(double num1, double num2) {
         return num1 + num2;
     }
 
     /**
-     *
-     * @Title: reduce
-     * @Desc: 减
-     *
      * @param num1
      * @param num2
      * @return 计算结果
-     *
+     * @Title: reduce
+     * @Desc: 减
      */
     public static double reduce(double num1, double num2) {
         return num1 - num2;
     }
 
     /**
-     *
-     * @Title: multiply
-     * @Desc: 乘
-     *
      * @param num1
      * @param num2
      * @return 计算结果
-     *
+     * @Title: multiply
+     * @Desc: 乘
      */
     public static double multiply(double num1, double num2) {
         return num1 * num2;
@@ -228,14 +203,11 @@ public class MyUtils {
     }
 
     /**
-     *
-     * @Title: divide
-     * @Desc: 除
-     *
      * @param num1
      * @param num2
      * @return 计算结果
-     *
+     * @Title: divide
+     * @Desc: 除
      */
     public static double divide(double num1, double num2) {
         return num1 / num2;

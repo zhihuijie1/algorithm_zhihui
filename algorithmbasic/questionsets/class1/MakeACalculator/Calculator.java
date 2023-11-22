@@ -1,14 +1,14 @@
-package algorithmbasic.questionsets.class1.class2;
+package algorithmbasic.questionsets.class1.MakeACalculator;
 
 import java.util.ArrayList;
-        import java.util.LinkedList;
-        import java.util.List;
-        import java.util.Scanner;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
 
 /**
+ * @author mengchuan.li
  * @Title: Calculator.java
  * @desc: 加减乘除计算器，支持括号，小数，负数
- * @author mengchuan.li
  * @date 2016年11月14日 下午1:22:39
  */
 public class Calculator {
@@ -36,13 +36,10 @@ public class Calculator {
     }
 
     /**
-     *
-     * @Title: PrepareParam
-     * @Desc: 准备计算的数据，符号
-     *
      * @param str 计算式
      * @return 计算结果
-     *
+     * @Title: PrepareParam
+     * @Desc: 准备计算的数据，符号
      */
     public Double prepareParam(String str) {
         // 空值校验
@@ -67,7 +64,8 @@ public class Calculator {
         // 处理表达式，改为标准表达式
         str = MyUtils.change2StandardFormat(str);
         // 拆分字符和数字
-        String[] nums = str.split("[^.0-9]");
+        String[] nums = str.split("[^.0-9]"); //正则表达式[^.0-9] -> 匹配任何不是小数点和数字的其他符号
+        //"-1.1+2*3(4*(-6+5))/(6(2+0.2)(7-3))="  -->  " -1.1, 2, 3, 4, -6, 5, 6, 2, 0.2, 7, 3 "
         List<Double> numLst = new ArrayList();
         for (int i = 0; i < nums.length; i++) {
             if (!"".equals(nums[i])) {
@@ -79,14 +77,11 @@ public class Calculator {
     }
 
     /**
-     *
-     * @Title: doCalculate
-     * @Desc: 计算
-     *
      * @param symStr 符号串
      * @param numLst 数字集合
      * @return 计算结果
-     *
+     * @Title: doCalculate
+     * @Desc: 计算
      */
     public Double doCalculate(String symStr, List<Double> numLst) {
         LinkedList<Character> symStack = new LinkedList<>();// 符号栈
