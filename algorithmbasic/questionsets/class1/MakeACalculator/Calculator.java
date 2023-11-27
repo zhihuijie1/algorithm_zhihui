@@ -32,7 +32,6 @@ public class Calculator {
                         MyUtils.formatResult(String.format("%." + MyUtils.RESULT_DECIMAL_MAX_LENGTH + "f", result)));
             }
         }
-
     }
 
     /**
@@ -141,5 +140,4 @@ public class Calculator {
         }
         return numStack.removeLast();
     }
-
 }
