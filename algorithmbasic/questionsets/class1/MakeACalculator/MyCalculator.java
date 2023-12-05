@@ -250,7 +250,6 @@ public class MyCalculator {
         return numStack.removeLast();
     }
 
-
     /**
      * 是否是数字
      *
