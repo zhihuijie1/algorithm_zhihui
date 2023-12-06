@@ -59,8 +59,7 @@ public class RotationString {
         int c = 0;
         for (int i = 2; i < strB.length; i++) {
             if(strB[i-1] == strB[c]) {
-                Next[i] = Next[i-1] + 1;
-                c++;
+                Next[i] = ++c;
             }else if(c != 0) {
                 c = Next[c];
             }else {
