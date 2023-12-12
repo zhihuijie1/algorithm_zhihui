@@ -1,4 +1,7 @@
-package algorithmbasic.basicsets;
+package algorithmbasic.basicsets.class30;
+
+import java.sql.SQLOutput;
+import java.util.Arrays;
 
 /**
  * 在无序数组中求第K小的数
@@ -29,7 +32,10 @@ public class FindMinKth {
     }
 
     public static int process(int[] array, int L, int R, int k) {
-        Info info = part(array, L, R);
+        if(L >= R) {
+            return array[L];
+        }
+        Info info = partition(array, L, R, array[R]);
         if (k <= info.right && k >= info.left) {
             return array[k];
         } else if (k < info.left) {
@@ -42,14 +48,17 @@ public class FindMinKth {
     // 荷兰国旗问题
     // 思路：选中一个目标值，然后进行划分，小于目标值的放在左边，等于目标值的放在中间，大于目标值的放在右边
     private static Info part(int[] array, int LB, int RB) { // key -> 目标值
-        int key = array[LB];
-        int L = -1;
-        int R = array.length;
-        for (int i = LB; i <= RB || i < R; i++) {
+        int key = array[RB];
+        int L = LB - 1;
+        int R = RB + 1;
+        for (int i = LB; i <= RB && i < R; i++) {
             if (array[i] < key) {
                 swap(array, L + 1, i);
                 L++;
             } else if (array[i] > key) {
+                /*System.out.println("目标值是 "+ key);
+                System.out.println("交换之前的RB是多少-> " + RB);
+                System.out.println("交换之前的i是多少-> " + i);*/
                 swap(array, R - 1, i);
                 i--;
                 R--;
@@ -82,7 +91,7 @@ public class FindMinKth {
     }
 
     public static int process2(int[] array, int L, int R, int k) {
-        int  index = brft(array, L, R);
+        int index = brft(array, L, R);
         Info info = part2(array, L, R, index);
         if (k <= info.right && k >= info.left) {
             return array[k];
@@ -95,9 +104,9 @@ public class FindMinKth {
 
     private static Info part2(int[] array, int LB, int RB, int index) {
         int key = index;
-        int L = -1;
-        int R = array.length;
-        for (int i = LB; i <= RB || i < R; i++) {
+        int L = LB - 1;
+        int R = RB + 1;
+        for (int i = LB; i <= RB && i < R; i++) {
             if (array[i] < key) {
                 swap(array, L + 1, i);
                 L++;
@@ -111,18 +120,25 @@ public class FindMinKth {
     }
 
     private static int brft(int[] array, int l, int r) {
-        int offsize = array.length % 5 == 0 ? 0 : 1;
-        int[] midArray = new int[array.length / 5 + offsize];
-        int low = 0;
-        int fast = 4;
+        int size = r - l + 1;
+        int offsize = size % 5 == 0 ? 0 : 1;
+        int[] midArray = new int[size / 5 + offsize];
+        System.out.println("midArray的长度是 -> " + midArray.length);
+        System.out.println("size -> " + size);
+        int low = l;
+        int fast = l + 4;
         int index = 0;
-        while (fast < array.length) {
+        while (fast <= r) {
             int mid = getMidNum(array, low, fast); // mid是中位数数值
-            midArray[index++] = mid;
+            midArray[index] = mid;
             fast += 5;
             low += 5;
+            index++;
         }
-        midArray[index] = getMidNum(array, low, array.length - 1);
+        System.out.println("index -> " + index);
+        if(index < midArray.length) {
+            midArray[index] = getMidNum(array, low, r);
+        }
         return getMidNum(midArray, 0, midArray.length - 1);
     }
 
@@ -139,4 +155,48 @@ public class FindMinKth {
             }
         }
     }
+
+    public static int[] generateRandomArray(int maxSize, int maxValue) {
+        int[] arr = new int[(int) (Math.random() * maxSize) + 1];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = (int) (Math.random() * (maxValue + 1));
+        }
+        return arr;
+    }
+
+    public static void main(String[] args) {
+        int testTime = 1000000;
+        int maxSize = 100;
+        int maxValue = 100;
+        System.out.println("test begin");
+        for (int i = 0; i < testTime; i++) {
+            int[] arr = generateRandomArray(maxSize, maxValue);
+            System.out.println(Arrays.toString(arr));
+            int k = (int) (Math.random() * arr.length) + 1;
+            int ans1 = minKth1(arr, k);
+            int ans2 = minKth2(arr, k);
+
+            if (ans1 != ans2) {
+                System.out.println("Oops!");
+            }
+        }
+        System.out.println("test finish");
+    }
+
+    public static Info partition(int[] arr, int L, int R, int pivot) {
+        int less = L - 1;
+        int more = R + 1;
+        int cur = L;
+        while (cur < more) {
+            if (arr[cur] < pivot) {
+                swap(arr, ++less, cur++);
+            } else if (arr[cur] > pivot) {
+                swap(arr, cur, --more);
+            } else {
+                cur++;
+            }
+        }
+        return new Info(less + 1, more - 1);
+    }
 }
+
