@@ -1,5 +1,7 @@
 package algorithmbasic.basicsets.class30;
 
+import com.sun.org.apache.regexp.internal.RE;
+
 import java.sql.SQLOutput;
 import java.util.Arrays;
 
@@ -28,14 +30,25 @@ public class FindMinKth {
         if (array == null || k < 1 || k > array.length) {
             return -1;
         }
-        return process(array, 0, array.length - 1, k);
+        int[] arr = copyArray(array);
+        System.out.println("minKth1 ->" + Arrays.toString(array));
+        return process(arr, 0, arr.length - 1, k - 1);
+    }
+
+    public static int[] copyArray(int[] arr) {
+        int[] ans = new int[arr.length];
+        for (int i = 0; i != ans.length; i++) {
+            ans[i] = arr[i];
+        }
+        return ans;
     }
 
     public static int process(int[] array, int L, int R, int k) {
-        if(L >= R) {
+        //范围不合法
+        if (L == R) {
             return array[L];
         }
-        Info info = partition(array, L, R, array[R]);
+        Info info = part(array, L, R);
         if (k <= info.right && k >= info.left) {
             return array[k];
         } else if (k < info.left) {
@@ -48,17 +61,14 @@ public class FindMinKth {
     // 荷兰国旗问题
     // 思路：选中一个目标值，然后进行划分，小于目标值的放在左边，等于目标值的放在中间，大于目标值的放在右边
     private static Info part(int[] array, int LB, int RB) { // key -> 目标值
-        int key = array[RB];
+        int key = array[LB + (int) (Math.random() * (RB - LB + 1))];
         int L = LB - 1;
         int R = RB + 1;
-        for (int i = LB; i <= RB && i < R; i++) {
+        for (int i = LB; i < R; i++) {
             if (array[i] < key) {
                 swap(array, L + 1, i);
                 L++;
             } else if (array[i] > key) {
-                /*System.out.println("目标值是 "+ key);
-                System.out.println("交换之前的RB是多少-> " + RB);
-                System.out.println("交换之前的i是多少-> " + i);*/
                 swap(array, R - 1, i);
                 i--;
                 R--;
@@ -87,18 +97,23 @@ public class FindMinKth {
         if (array == null || k < 1 || k > array.length) {
             return -1;
         }
-        return process2(array, 0, array.length - 1, k);
+        int[] arr = copyArray(array);
+        System.out.println("minKth2 ->" + Arrays.toString(arr));
+        return process2(arr, 0, arr.length - 1, k);
     }
 
     public static int process2(int[] array, int L, int R, int k) {
+        if(L >= R) {
+            return array[L];
+        }
         int index = brft(array, L, R);
         Info info = part2(array, L, R, index);
         if (k <= info.right && k >= info.left) {
             return array[k];
         } else if (k < info.left) {
-            return process(array, L, info.left - 1, k);
+            return process2(array, L, info.left - 1, k);
         } else {
-            return process(array, info.right + 1, R, k);
+            return process2(array, info.right + 1, R, k);
         }
     }
 
@@ -106,7 +121,7 @@ public class FindMinKth {
         int key = index;
         int L = LB - 1;
         int R = RB + 1;
-        for (int i = LB; i <= RB && i < R; i++) {
+        for (int i = LB; i < R; i++) {
             if (array[i] < key) {
                 swap(array, L + 1, i);
                 L++;
@@ -123,8 +138,6 @@ public class FindMinKth {
         int size = r - l + 1;
         int offsize = size % 5 == 0 ? 0 : 1;
         int[] midArray = new int[size / 5 + offsize];
-        System.out.println("midArray的长度是 -> " + midArray.length);
-        System.out.println("size -> " + size);
         int low = l;
         int fast = l + 4;
         int index = 0;
@@ -135,17 +148,17 @@ public class FindMinKth {
             low += 5;
             index++;
         }
-        System.out.println("index -> " + index);
-        if(index < midArray.length) {
+        if (index < midArray.length) { // 排除整除退出的情况
             midArray[index] = getMidNum(array, low, r);
         }
-        return getMidNum(midArray, 0, midArray.length - 1);
+        //return getMidNum(midArray, 0, midArray.length - 1);
+        return process2(midArray,0,midArray.length-1,midArray.length/2);
     }
 
     private static int getMidNum(int[] array, int L, int R) {
         //进行插入排序，然后取出中位数
         insertionSort(array, L, R);
-        return array[(L + R) / 2];
+        return array[L + (R - L) / 2];
     }
 
     private static void insertionSort(int[] arr, int L, int R) {
@@ -166,7 +179,7 @@ public class FindMinKth {
 
     public static void main(String[] args) {
         int testTime = 1000000;
-        int maxSize = 100;
+        int maxSize = 10;
         int maxValue = 100;
         System.out.println("test begin");
         for (int i = 0; i < testTime; i++) {
@@ -181,22 +194,6 @@ public class FindMinKth {
             }
         }
         System.out.println("test finish");
-    }
-
-    public static Info partition(int[] arr, int L, int R, int pivot) {
-        int less = L - 1;
-        int more = R + 1;
-        int cur = L;
-        while (cur < more) {
-            if (arr[cur] < pivot) {
-                swap(arr, ++less, cur++);
-            } else if (arr[cur] > pivot) {
-                swap(arr, cur, --more);
-            } else {
-                cur++;
-            }
-        }
-        return new Info(less + 1, more - 1);
     }
 }
 
