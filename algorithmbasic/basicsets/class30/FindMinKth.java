@@ -1,10 +1,5 @@
 package algorithmbasic.basicsets.class30;
 
-import com.sun.org.apache.regexp.internal.RE;
-
-import java.sql.SQLOutput;
-import java.util.Arrays;
-
 /**
  * 在无序数组中求第K小的数
  * 1）改写快排的方法
@@ -31,7 +26,8 @@ public class FindMinKth {
             return -1;
         }
         int[] arr = copyArray(array);
-        System.out.println("minKth1 ->" + Arrays.toString(array));
+        //System.out.println("minKth1 ->" + Arrays.toString(array));
+        //System.out.println("k -> " + k);
         return process(arr, 0, arr.length - 1, k - 1);
     }
 
@@ -98,12 +94,12 @@ public class FindMinKth {
             return -1;
         }
         int[] arr = copyArray(array);
-        System.out.println("minKth2 ->" + Arrays.toString(arr));
-        return process2(arr, 0, arr.length - 1, k);
+        //System.out.println("minKth1 ->" + Arrays.toString(array));
+        return process2(arr, 0, arr.length - 1, k - 1);
     }
 
     public static int process2(int[] array, int L, int R, int k) {
-        if(L >= R) {
+        if (L == R) {
             return array[L];
         }
         int index = brft(array, L, R);
@@ -152,7 +148,7 @@ public class FindMinKth {
             midArray[index] = getMidNum(array, low, r);
         }
         //return getMidNum(midArray, 0, midArray.length - 1);
-        return process2(midArray,0,midArray.length-1,midArray.length/2);
+        return process2(midArray, 0, midArray.length - 1, midArray.length / 2);
     }
 
     private static int getMidNum(int[] array, int L, int R) {
@@ -184,10 +180,12 @@ public class FindMinKth {
         System.out.println("test begin");
         for (int i = 0; i < testTime; i++) {
             int[] arr = generateRandomArray(maxSize, maxValue);
-            System.out.println(Arrays.toString(arr));
+            //System.out.println("当前的数组是 -> " + Arrays.toString(arr));
             int k = (int) (Math.random() * arr.length) + 1;
             int ans1 = minKth1(arr, k);
             int ans2 = minKth2(arr, k);
+            //System.out.println("ans1 -> " + ans1 );
+            //System.out.println("ans2 -> " + ans2);
 
             if (ans1 != ans2) {
                 System.out.println("Oops!");
