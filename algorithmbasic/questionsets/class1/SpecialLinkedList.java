@@ -14,6 +14,7 @@ public class SpecialLinkedList {
         VerticalNode next;
         int value;
         HorizontalList horizontalList;
+        int Hindex; // 竖向Node锁定横向Node的位置
 
         public VerticalNode(int value) {
             this.value = value;
@@ -97,6 +98,42 @@ public class SpecialLinkedList {
             if (vcur == null) {
                 return -3; // index太大
             }
+            if (vcur.horizontalList == null) {
+                return -4; // 没有水平链表
+            }
+            if (step > vcur.horizontalList.length) {
+                return -5; // 说品步数太大
+            }
+            // ---------------------- //
+            if (direction.equals("left")) {
+                int HorIndex = vcur.Hindex;
+                HorizontalNode hCur = vcur.horizontalList.head;
+                while (hCur != null && HorIndex > 0) {
+                    hCur = hCur.next;
+                    HorIndex--;
+                }
+                while (hCur != null && step > 0) {
+                    hCur = hCur.next;
+                    step--;
+                }
+                vcur.Hindex = step + vcur.Hindex;
+
+            } else if (direction.equals("right")) {
+                int HorIndex = vcur.Hindex;
+                HorizontalNode hCur = vcur.horizontalList.head;
+                while (hCur != null && HorIndex > 0) {
+                    hCur = hCur.next;
+                    HorIndex--;
+                }
+                while (hCur != null && step > 0) {
+                    hCur = hCur.pre;
+                    step--;
+                }
+                vcur.Hindex = vcur.Hindex - step;
+            } else {
+                return -1; // 输入错误
+            }
+            return 0;
         }
     }
 
