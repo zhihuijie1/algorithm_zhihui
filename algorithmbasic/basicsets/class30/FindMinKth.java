@@ -180,13 +180,9 @@ public class FindMinKth {
         System.out.println("test begin");
         for (int i = 0; i < testTime; i++) {
             int[] arr = generateRandomArray(maxSize, maxValue);
-            //System.out.println("当前的数组是 -> " + Arrays.toString(arr));
             int k = (int) (Math.random() * arr.length) + 1;
             int ans1 = minKth1(arr, k);
             int ans2 = minKth2(arr, k);
-            //System.out.println("ans1 -> " + ans1 );
-            //System.out.println("ans2 -> " + ans2);
-
             if (ans1 != ans2) {
                 System.out.println("Oops!");
             }
