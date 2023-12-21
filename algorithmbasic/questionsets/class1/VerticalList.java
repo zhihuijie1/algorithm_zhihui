@@ -125,7 +125,7 @@ public class VerticalList {
             VerticalNode vNode = new VerticalNode(value);
             vNode.pre = tail;
             tail.next = vNode;
-            vNode.Vindex = tail.Vindex + 1;
+            vNode.Vindex = tail.Vindex + 1; // 位置很重要
             tail = vNode;
             if (vNode.Vindex > 0 && (Math.log(vNode.Vindex) / Math.log(2)) % 1 == 0) {
                 vNode.horizontalList = new HorizontalList();
@@ -177,7 +177,9 @@ public class VerticalList {
                 HorizontalNode ccur = cur.horizontalList.head;
                 int count = 0;
                 while (ccur != null) {
-                    if (ccur == cur.horizontalList.head) {
+                    if (ccur == cur.horizontalList.head && ccur == cur.horizontalList.tail && count == index) {
+                        System.out.print("[" + ccur.value + "#" + "]" + "<->");
+                    } else if (ccur == cur.horizontalList.head) {
                         if (count == index) {
                             System.out.print("[" + ccur.value + "#" + "<->");
                         } else {
@@ -185,14 +187,14 @@ public class VerticalList {
                         }
                     } else if (ccur == cur.horizontalList.tail) {
                         if (count == index) {
-                            System.out.print(ccur.value + "#" + "<->" + "]");
+                            System.out.print(ccur.value + "#" + "]" + "<->");
                         } else {
-                            System.out.print(ccur.value + "<->" + "]");
+                            System.out.print(ccur.value + "]" + "<->");
                         }
                     } else {
                         if (count == index) {
                             System.out.print(ccur.value + "#" + "<->");
-                        }else{
+                        } else {
                             System.out.print(ccur.value + "<->");
                         }
 
@@ -299,6 +301,7 @@ public class VerticalList {
             return;
         }
     }
+
     //横向链表的长度
     public int ShuipingLength(int vIndex) {
         VerticalNode vcur = this.head;
@@ -306,7 +309,7 @@ public class VerticalList {
             vcur = vcur.next;
             vIndex--;
         }
-        if(vcur.horizontalList == null) {
+        if (vcur.horizontalList == null) {
             System.out.println("没有水平链表");
             return -1;
         }
@@ -341,6 +344,10 @@ public class VerticalList {
         verticalList.insertShuiPing(2, 8);
         verticalList.insertShuiPing(2, 9);
         verticalList.insertShuiPing(2, 10);
+
+        verticalList.insertShuiPing(3, 1);
+        verticalList.insertShuiPing(3, 2);
+        verticalList.insertShuiPing(3, 3);
 
         verticalList.insertShuiPing(8, 1);
         verticalList.insertShuiPing(8, 2);
