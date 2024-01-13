@@ -9,20 +9,22 @@ package algorithmbasic.basicsets.class30;
  */
 public class ReservoirSampling {
     static int[] bag = new int[50];
+    static int bagI = 0;
     static int testTime = 1000000;
 
     //求在bag中的概率  长度范围->[1,maxNub]
     public static void reservoir(int maxNub) {
         int[] count = new int[maxNub + 1];
         for (int k = 0; k < testTime; k++) {
+            bagI = 0;
             for (int i = 1; i <= maxNub; i++) {
                 if (i <= 50) {
-                    bag[i - 1] = i;
+                    bag[bagI++] = i;
                 } else { //i > 50
                     // 50 / i * 1 / 50
                     int j = (int) (Math.random() * i) + 1;
                     if (j <= 50) {
-                        bag[(int) (Math.random() * 10)] = i;
+                        bag[(int) (Math.random() * 50)] = i;
                     }
                 }
             }
