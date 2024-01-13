@@ -26,8 +26,6 @@ public class FindMinKth {
             return -1;
         }
         int[] arr = copyArray(array);
-        //System.out.println("minKth1 ->" + Arrays.toString(array));
-        //System.out.println("k -> " + k);
         return process(arr, 0, arr.length - 1, k - 1);
     }
 

@@ -7,17 +7,14 @@ public class KMP {
         }
         char[] str1 = s1.toCharArray();
         char[] str2 = s2.toCharArray();
-
         int[] next = makeNextArray(str2);
-
         int x = 0;
         int y = 0;
-
         while (x < str1.length && y < str2.length) {
             /**
              * 跳出循环分三种情况
              * 1：当 x == str1.length && y != str2.length ==> 没有在str1中找到str2.
-             * 2：当 x == str1.length && y == str2.length ==> 在最后的时候正好找到了。.
+             * 2：当 x == str1.length && y == str2.length ==> 在最后的时候正好找到了。
              * 3：当 x != str1.length && y == str2.length ==> 在前面就找到了.
              */
             if (str1[x] == str2[y]) {
