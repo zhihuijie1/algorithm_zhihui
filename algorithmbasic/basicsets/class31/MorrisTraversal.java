@@ -16,11 +16,11 @@ public class MorrisTraversal {
         if (root == null) {
             return;
         }
-        // 1
+        // 1 ---
         process(root.left);
-        // 2
+        // 2 ---
         process(root.right);
-        // 3
+        // 3 ----
     }
 
     public static void morris(Node head) {
