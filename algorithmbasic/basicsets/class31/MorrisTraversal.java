@@ -9,6 +9,7 @@ public class MorrisTraversal {
         public Node(int data) {
             this.value = data;
         }
+
     }
 
     public static void process(Node root) {
