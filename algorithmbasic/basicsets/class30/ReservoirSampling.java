@@ -35,6 +35,7 @@ public class ReservoirSampling {
         }
         for (int i = 0; i < count.length; i++) {
             System.out.println("第" + i + "对应->" + count[i]);
+
         }
     }
 
@@ -42,4 +43,5 @@ public class ReservoirSampling {
     public static void main(String[] args) {
         reservoir(150);
     }
+
 }
