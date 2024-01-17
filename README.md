@@ -1,2 +1,2 @@
-#   basicsets：数据结构与算法基础
-#   questionsets：leetcode刷题
+#   algorithmbasic.basicsets：数据结构与算法基础
+#   algorithmbasic.questionsets：leetcode刷题
