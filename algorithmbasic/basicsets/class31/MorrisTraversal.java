@@ -188,6 +188,7 @@ public class MorrisTraversal {
         node4.right = null;
 
         //morrisLast(node1);
+
         //morrisPre(node1);
         morris(node1);
         //morrisIn(node1);
