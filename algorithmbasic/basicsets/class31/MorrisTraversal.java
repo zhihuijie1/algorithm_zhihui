@@ -121,7 +121,6 @@ public class MorrisTraversal {
 
     /**
      * 倒序打印，为了保持空间复杂度是O（1），不可以使用额外的容器，这里采用反转链表的方法。
-     *
      * @param head 头节点
      */
     public static void printList(Node head) {
