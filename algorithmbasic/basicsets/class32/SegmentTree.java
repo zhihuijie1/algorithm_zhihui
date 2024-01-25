@@ -44,10 +44,33 @@ public class SegmentTree {
             sum[rt] = sum[rt << 1] + sum[rt << 1 | 1];
         }
 
+        public static void pushDown(int rt, int ln, int rn) {
+            if (lazy[rt] != 0) {
+                lazy[rt << 1] += lazy[rt];
+                sum[rt << 1] += lazy[rt] * ln;
+                lazy[rt << 1 | 1] += lazy[rt];
+                sum[rt << 1 | 1] += lazy[rt] * rn;
+                lazy[rt] = 0;
+            }
+        }
+
         //任务：在[L,R]这个区间都加上C
         //目前来到的区间是[l,r],sum对应的下标是rt
         public static void add(int L, int R, int C, int l, int r, int rt) {
-
+            if (L <= l && r <= R) {
+                sum[rt] += (r - l + 1) * C;
+                lazy[rt] += C;
+                return;
+            }
+            int mid = (l + r) >> 1;
+            pushDown(rt, mid - l + 1, r - mid);
+            if (L <= mid) {
+                add(L, R, C, l, mid, rt << 1);
+            }
+            if (R > mid) {
+                add(L, R, C, mid + 1, r, rt << 1 | 1);
+            }
+            sum[rt] = sum[rt << 1] + sum[rt << 1 | 1];
         }
 
         public static void update() {
