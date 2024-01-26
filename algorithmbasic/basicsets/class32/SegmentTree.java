@@ -44,7 +44,20 @@ public class SegmentTree {
             sum[rt] = sum[rt << 1] + sum[rt << 1 | 1];
         }
 
+        //向下抛
         public static void pushDown(int rt, int ln, int rn) {
+            //update 在 lazy 判断的前面。原因：进行交叉操作的时候，如果当前位置的已经更新了，那lazy就需要重新进行进行计数。
+            if (update[rt]) {
+                update[rt << 1] = true;
+                update[rt << 1 | 1] = true;
+                change[rt << 1] = change[rt];
+                change[rt << 1 | 1] = change[rt];
+                sum[rt << 1] = ln * change[rt];
+                sum[rt << 1 | 1] = rn * change[rt];
+                lazy[rt << 1] = 0;
+                lazy[rt << 1 | 1] = 0;
+                update[rt] = false;
+            }
             if (lazy[rt] != 0) {
                 lazy[rt << 1] += lazy[rt];
                 sum[rt << 1] += lazy[rt] * ln;
@@ -73,12 +86,40 @@ public class SegmentTree {
             sum[rt] = sum[rt << 1] + sum[rt << 1 | 1];
         }
 
-        public static void update() {
-
+        public static void update(int L, int R, int C, int l, int r, int rt) {
+            if (L <= l && r <= R) {
+                update[rt] = true;
+                change[rt] = C;
+                sum[rt] = (r - l + 1) * C;
+                lazy[rt] = 0;
+                return;
+            }
+            //当前任务躲不掉，无法懒更新，要往下发
+            int mid = (l + r) >> 1;
+            pushDown(rt, mid - l + 1, r - mid);
+            if (L <= mid) {
+                update(L, R, C, l, mid, rt << 1);
+            }
+            if (R > mid) {
+                update(L, R, C, mid + 1, R, rt << 1 | 1);
+            }
+            sum[rt] = sum[rt << 1] + sum[rt << 1 | 1];
         }
 
-        public static void quary() {
-
+        public static long quary(int L, int R, int l, int r, int rt) {
+            if (L <= l && r <= R) {
+                return sum[rt];
+            }
+            long ans = 0;
+            int mid = (r + l) >> 1;
+            pushDown(rt, mid - l + 1, r - mid); //父节点搞不定，就将父节点的重担分发给子节点。
+            if (L <= mid) {
+                ans += quary(L, R, l, mid, rt << 1);
+            }
+            if (R > mid) {
+                ans += quary(L, R, mid + 1, r, rt << 1 | 1);
+            }
+            return ans;
         }
     }
 }
