@@ -1,8 +1,8 @@
 package algorithmbasic.basicsets.class32;
 
-import javax.print.DocFlavor;
 import java.util.LinkedList;
 import java.util.List;
+
 
 /**
  * 在二维平面上的 x 轴上，放置着一些方块。
@@ -66,18 +66,18 @@ public class FallingSquares {
         public static void pushDown(int rt) {
             if (update[rt]) {
                 Max[rt << 1] = change[rt];
-                Max[(rt << 1) | 1] = change[rt];
+                Max[rt << 1 | 1] = change[rt];
                 update[rt << 1] = true;
                 update[(rt << 1) | 1] = true;
                 change[rt << 1] = change[rt];
-                change[(rt << 1) | 1] = change[rt];
-                change[rt] = 0;
+                change[rt << 1 | 1] = change[rt];
+                //change[rt] = 0;
                 update[rt] = false;
             }
         }
 
         public static int getMAX(int L, int R, int l, int r, int rt) {
-            if (l <= L && r >= R) {
+            if (l >= L && r <= R) {
                 return Max[rt];
             }
             pushDown(rt);
@@ -88,13 +88,13 @@ public class FallingSquares {
                 a = getMAX(L, R, l, mid, rt << 1);
             }
             if (R > mid) {
-                b = getMAX(L, R, mid + 1, r, (rt << 1) | 1);
+                b = getMAX(L, R, mid + 1, r, rt << 1 | 1);
             }
             return Math.max(a, b);
         }
 
         public static void update(int L, int R, int C, int l, int r, int rt) {
-            if (l <= L && r >= R) {
+            if (l >= L && r <= R) {
                 change[rt] = C;
                 update[rt] = true;
                 Max[rt] = C;
@@ -108,29 +108,7 @@ public class FallingSquares {
             if (R > mid) {
                 update(L, R, C, mid + 1, r, (rt << 1) | 1);
             }
-            Max[rt] = Math.max(Max[rt << 1], Max[(rt << 1) | 1]);
+            Max[rt] = Math.max(Max[rt << 1], Max[rt << 1 | 1]);
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

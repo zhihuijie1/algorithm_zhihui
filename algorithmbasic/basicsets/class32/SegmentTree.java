@@ -3,6 +3,7 @@ package algorithmbasic.basicsets.class32;
 public class SegmentTree {
     /**
      * 线段树主要解决的问题是：在一个区间上进行增，改，查，并且时间复杂度是logN
+     * 下标统一以1开始，这样使用下标可以快速的确定左右孩子的下标，左孩子：2*i，右孩子：2*i+1
      */
     public static class SegTree {
         //MAXN:传入数组的长度
