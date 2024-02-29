@@ -1,13 +1,20 @@
 package algorithmbasic.basicsets.class33;
 
+// ----------------------- 这个写法的执行规则是一个一个的加进去 -------------------
 public class IndexTree {
     // indextree 没法进行范围更新，但是可以进行单点更新，与范围查询
+    private static int[] tree;
+    private static int N;
 
+    public IndexTree(int[] arr) {
+        N = arr.length + 1;
+        tree = new int[N];
+    }
     //0 3 2 4 1 5 7 3 8 1  2 9  13 数值
     //0 1 2 3 4 5 6 7 8 9 10 11 12 下标 注意必须从1下标开始，才匹配后面的规律
 
     // 1 2 3 4 5 6 7 8 9  10 11 12 13 14 15 16 下标
-    // 1 1 3 1 5 5 7 1 9  9  11 11 13 13 15 1
+    // 1 1 3 1 5 5 7 1 9  9  11 9 13 13 15 1
     // | | | | | | | | |  |  |  |  |  |  |  |   管理的范围
     // 1 2 3 4 5 6 7 8 9  10 11 12 13 14 15 16
 
@@ -40,7 +47,19 @@ public class IndexTree {
     //
     //
 
-
+    /**
+     * 计算 1-index 位置的的累加和
+     **/
+    public static int sum(int index) {
+        int answer = 0;
+        //1: 对index位置剔除最后一个1
+        //2: 从后往前不断的剔除1
+        while (index > 0) {
+            answer += tree[index];
+            index = index - (-index & index);
+        }
+        return answer;
+    }
 
     // 对单点位置进行修改
     // public void add(int index, int d) {} 在index位置添加数值d
@@ -61,18 +80,23 @@ public class IndexTree {
     //
     //
 
+    /**
+     * 在 index 位置增加 d
+     **/
+    public static void add(int index, int d) {
+        //1: 确定修改index位置会受到影响的范围
+        //2：对受到影响的范围进修修改
+        int curIndex = index;
+        while (curIndex < N) {
+            tree[curIndex] += d;
+            curIndex += (curIndex & -curIndex);
+        }
+    }
+
+    /**
+     * 查询范围 [l , r] 之间的累加和
+     **/
+    public static int find(int l, int r) {
+        return sum(r) - sum(l - 1);
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
