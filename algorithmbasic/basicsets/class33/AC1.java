@@ -117,6 +117,7 @@ public class AC1 {
         ac.insert("c");
         ac.build();
         System.out.println(ac.containNum("cdhe"));
+
     }
 
 }
