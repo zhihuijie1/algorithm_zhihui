@@ -112,6 +112,7 @@ public class AC1 {
 
     public static void main(String[] args) {
         ACAutomation ac = new ACAutomation();
+
         ac.insert("dhe");
         ac.insert("he");
         ac.insert("c");
