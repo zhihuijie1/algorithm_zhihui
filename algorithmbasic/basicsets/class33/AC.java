@@ -34,6 +34,7 @@ public class AC {
         //  遍历大文章来计算有多少关键字出现
 
         public static Node root;//根节点
+
         /**
          * 1:根据给出的关键字创建前缀树
          **/
@@ -43,7 +44,7 @@ public class AC {
             for (int i = 0; i < str.length; i++) {
                 int index = str[i] - 'a';
                 //有当前的路径，就走当前的路径
-                if(cur.nexts [index] != null) {
+                if (cur.nexts[index] != null) {
                     cur = cur.nexts[index];
                     continue;
                 }
@@ -54,22 +55,67 @@ public class AC {
             //以当前字母结尾的关键字字数加1
             cur.end++;
         }
+
         /**
          * 2: 广度优先遍历构建fail指针
-         * **/
+         **/
         public static void build() {
             //广度优先遍历的神奇
             Queue<Node> queue = new LinkedList<>();
             root.fail = null;
             queue.add(root);
-            while(queue.isEmpty()) {
+            while (!queue.isEmpty()) {
                 Node cur = queue.poll();
                 for (int i = 0; i < 26; i++) {
-                    if(cur.nexts[i] != null) {
-
+                    if (cur.nexts[i] != null) {
+                        Node cfail = cur.fail;
+                        //处理当前节点的fail指针
+                        //处理方法 - 父亲节点的fail指针指向的的节点有无对应的路径
+                        //- 如果没有继续沿着fail指针找，直到回到root的fail指向null
+                        cur.nexts[i].fail = root;
+                        while (cfail != null) {
+                            if (cfail.nexts[i] != null) {
+                                cur.nexts[i].fail = cfail.nexts[i];
+                                break;
+                            }
+                            cfail = cfail.fail;
+                        }
+                        queue.add(cur.nexts[i]);
                     }
                 }
             }
+        }
+
+        //遍历大文章来计算有多少关键字出现
+        public int containNum(String content) {
+            char[] str = content.toCharArray();
+            int index = 0;
+            Node cur = root;
+            Node follow = null;
+            int res = 0;
+
+            for (int i = 0; i < str.length; i++) {
+                index = str[i] - 'a';
+                //当前节点是非根节点 与此同时 当前节点没有匹配成功
+                while (cur.nexts[index] == null && cur != root) {
+                    cur = cur.fail;
+                }
+                //当前节点匹配成功 || 当前节点是根节点
+                //如果说当前节点匹配成功的话 --> 直接进入下一个节点 --> 然后转一圈 --> 转一圈的目的是 -> 寻找尽量多的匹配串
+                cur = cur.nexts[index] != null ? cur.nexts[index] : root;
+                follow = cur;
+                while (follow != root) { //转了一圈回到了root说明该统计的都统计完了，或者说压根没有匹配的
+                    if (follow.end == -1) {
+                        break;
+                    }
+                    if (follow.end != 0) {
+                        res += follow.end;
+                        follow.end = -1;
+                    }
+                    follow = follow.fail;
+                }
+            }
+            return res;
         }
     }
 }

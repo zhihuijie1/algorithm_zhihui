@@ -44,9 +44,9 @@ public class FallingSquares {
             int C = positions[i][1];
             int R = L + C;
             //SegmentTree.build(L, R - 1, 1);
-            int MAX = SegmentTree.getMAX(L, R - 1, 1);
+            /*int MAX = SegmentTree.getMAX(L, R - 1, 1);
             SegmentTree.update(L, R - 1, MAX + C, L, R - 1, 1);
-            ans.add(index++, MAX + C);
+            ans.add(index++, MAX + C);*/
         }
         return ans;
     }

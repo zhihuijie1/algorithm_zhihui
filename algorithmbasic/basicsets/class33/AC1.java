@@ -113,10 +113,10 @@ public class AC1 {
     public static void main(String[] args) {
         ACAutomation ac = new ACAutomation();
 
-        ac.insert("dhe");
-        ac.insert("he");
-        ac.insert("c");
+        ac.insert("ab");
+        ac.insert("abc");
+        ac.insert("bc");
         ac.build();
-        System.out.println(ac.containNum("cdhe"));
+        System.out.println(ac.containNum("abcdefghiyghln"));
     }
 }
