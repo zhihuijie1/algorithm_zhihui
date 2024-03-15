@@ -95,8 +95,7 @@ public class AVL {
                     //leftleftHeight == leftrightHeight -- LL + LR并存
                     //leftleftHeight < leftrightHeight -- LR
                     if (leftleftHeight >= leftrightHeight) {
-                        cur = rightRotate(cur);
-                        //用cur来接住当前的头
+                        cur = rightRotate(cur);//用cur来接住当前的头
                     } else {
                         cur.l = leftRotate(cur.l); //用cur.l把头接住
                         cur = rightRotate(cur); //用cur把头接住
@@ -104,12 +103,8 @@ public class AVL {
                 } else {
                     int rightleftHeight = cur.r != null && cur.r.l != null ? cur.r.l.h : 0;
                     int rightrightHeight = cur.r != null && cur.r.r != null ? cur.r.r.h : 0;
-                    //rightleftHeight > rightrightHeight -- RR
-                    //rightleftHeight == rightrightHeight -- RR + RL并存
-                    //rightleftHeight < rightrightHeight -- RL
                     if (rightleftHeight >= rightrightHeight) {
-                        cur = leftRotate(cur);
-                        //用cur来接住当前的头
+                        cur = leftRotate(cur); //用cur来接住当前的头
                     } else {
                         cur.r = rightRotate(cur.r); //用cur.r把头接住
                         cur = leftRotate(cur); //用cur把头接住
@@ -121,14 +116,24 @@ public class AVL {
         }
 
         //左旋 -- LL型 | LL+LR型 --> 统统左旋
-        public AvlNode leftRotate(AvlNode cur) {
+        public AvlNode<K, V> rightRotate(AvlNode<K, V> cur) {
+            AvlNode left = cur.l;
+            cur.l = left.r;
+            left.r = cur;
+            cur.h = Math.max((cur.l != null ? cur.l.h : 0), (cur.r != null ? cur.r.h : 0));
+            left.h = Math.max((left.l != null ? left.l.h : 0), (left.r != null ? left.r.h : 0));
+            return left;
         }
 
         //右旋 -- RR型 | RR+RL型 --> 统统右旋
-        public AvlNode rightRotate(AvlNode cur) {
+        public AvlNode<K, V> leftRotate(AvlNode<K, V> cur) {
+            AvlNode right = cur.r;
+            cur.r = right.l;
+            right.l = cur;
+            cur.h = Math.max((cur.l != null ? cur.l.h : 0), (cur.r != null ? cur.r.h : 0));
+            right.h = Math.max((right.l != null ? right.l.h : 0), (right.r != null ? right.r.h : 0));
+            return right;
         }
-
-
     }
 }
 
