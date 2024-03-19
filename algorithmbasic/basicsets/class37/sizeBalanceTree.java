@@ -29,8 +29,38 @@ public class sizeBalanceTree {
             return mainTain(cur);
         }
 
-        public SBTNode<K, V> delete(SBTNode<K, V> cur, K key, V value) {
-
+        public SBTNode<K, V> delete(SBTNode<K, V> cur, K key) {
+            if (cur.key.compareTo(key) < 0) {
+                cur.right = delete(cur.right, key);
+            } else if (cur.key.compareTo(key) > 0) {
+                cur.left = delete(cur.left, key);
+            } else {
+                if (cur.left == null && cur.right == null) {
+                    return null;
+                } else if (cur.left == null) {
+                    return cur.right;
+                } else if (cur.right == null) {
+                    return cur.left;
+                } else {
+                    // --------------------- begin - hardThinking---------------------
+                    SBTNode<K, V> des = cur.right;
+                    SBTNode<K, V> pre = null;
+                    while (des.left != null) {
+                        pre = des;
+                        pre.size--;
+                        des = des.left;
+                    }
+                    if (pre != null) {
+                        pre.left = des.right;
+                        des.right = cur.right;
+                    }
+                    des.left = cur.left;
+                    des.size = cur.left.size + (des.right == null ? 0 : des.right.size) + 1;
+                    cur = des;
+                    // --------------------- end ---------------------
+                }
+            }
+            return cur;
         }
 
         public SBTNode<K, V> mainTain(SBTNode<K, V> cur) {
@@ -49,11 +79,21 @@ public class sizeBalanceTree {
                 cur.left = mainTain(cur.left);
                 cur = mainTain(cur);
             } else if (leftRightSize > rightSzie) {// LR
-
+                cur.left = leftRotate(cur.left);
+                cur = rightRotate(cur);
+                cur.left = mainTain(cur.left);
+                cur.right = mainTain(cur.right);
+                cur = mainTain(cur);
             } else if (rightLeftSize > leftSzie) {// RL
-
+                cur.right = rightRotate(cur.right);
+                cur = leftRotate(cur);
+                cur.left = mainTain(cur.left);
+                cur.right = mainTain(cur.right);
+                cur = mainTain(cur);
             } else if (rightRightSize > leftSzie) {// RR
-
+                cur = leftRotate(cur);
+                cur.left = mainTain(cur.left);
+                cur = mainTain(cur);
             }
             return cur;
         }
