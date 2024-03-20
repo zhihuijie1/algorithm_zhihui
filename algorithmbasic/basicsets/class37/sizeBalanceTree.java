@@ -99,11 +99,27 @@ public class sizeBalanceTree {
         }
 
         public SBTNode<K, V> leftRotate(SBTNode<K, V> cur) {
-
+            if (cur == null) {
+                return null;
+            }
+            SBTNode<K, V> right = cur.right;
+            cur.right = right.left;
+            right.left = cur;
+            right.size = cur.size;//cur之前是整棵树的头节点，size是整棵树的size
+            cur.size = (cur.right == null ? 0 : cur.right.size) + (cur.left == null ? 0 : cur.left.size) + 1;
+            return right;
         }
 
         public SBTNode<K, V> rightRotate(SBTNode<K, V> cur) {
-
+            if (cur == null) {
+                return null;
+            }
+            SBTNode<K, V> left = cur.left;
+            cur.left = left.right;
+            left.right = cur;
+            left.size = cur.size;//cur之前是整棵树的头节点，size是整棵树的size
+            cur.size = (cur.left == null ? 0 : cur.left.size) + (cur.right == null ? 0 : cur.right.size) + 1;
+            return left;
         }
     }
 }
