@@ -78,7 +78,25 @@ public class SkipList {
 
         //删除一个节点
         public void remove(K key) {
-
+            //大跳表中是否有当前的key
+            if (!containsKey(key)) {
+                return;
+            }
+            size--;
+            //从最上层开始，找到key删除，下一层继续，直到最底层
+            int level = maxLevel;
+            SkipListNode<K, V> pre = head;
+            while (level >= 0) {
+                //pre->前驱
+                pre = mostRightLessNodeInLevel(pre, key, level);
+                //now->当前节点
+                SkipListNode<K, V> next = pre.nextNodes.get(level);
+                //next.nextNodes.get(level)的后继
+                if (next != null && next.key.compareTo(key) == 0) {
+                    pre.nextNodes.set(level, next.nextNodes.get(level));
+                }
+                level--;
+            }
         }
 
         //从最高层开始，一路找下去，
@@ -109,6 +127,15 @@ public class SkipList {
                 cur = cur.nextNodes.get(level);
             }
             return pre;
+        }
+
+        public Boolean containsKey(K key) {
+            if (key == null) {
+                return false;
+            }
+            SkipListNode<K, V> less = mostRightLessNodeInTree(key);
+            SkipListNode<K, V> find = less.nextNodes.get(0);
+            return find != null && find.key.compareTo(key) == 0;
         }
     }
 }
