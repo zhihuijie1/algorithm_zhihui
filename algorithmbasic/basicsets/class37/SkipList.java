@@ -95,6 +95,11 @@ public class SkipList {
                 if (next != null && next.key.compareTo(key) == 0) {
                     pre.nextNodes.set(level, next.nextNodes.get(level));
                 }
+                //在level层只有一个节点了，就是默认节点head --> 这一层没有东西了 直接删除这一层
+                if (level != 0 && pre == head && pre.nextNodes.get(level) == null) {
+                    head.nextNodes.remove(level);
+                    maxLevel--;
+                }
                 level--;
             }
         }
