@@ -22,7 +22,7 @@ public class CountofRangeSum2 {
         //黑盒，加入数字(前缀和)，不去重，可接受重复数字
         SizeBalancedTreeSet SBTreeSet = new SizeBalancedTreeSet();
         SBTreeSet.add(0);//一个也没有的时候，前缀和是0
-        int sum = 0;//累加和
+        long sum = 0;//累加和
         long ans = 0;//记录全局满足区间条件的子数组数量
         for (int i = 0; i < nums.length; i++) {
             sum += nums[i];
@@ -38,8 +38,8 @@ public class CountofRangeSum2 {
         public long key;
         public SBTreeNode left;
         public SBTreeNode right;
-        public int size;//平衡因子，不同key的数量
-        public int all;//总的数量
+        public long size;//平衡因子，不同key的数量
+        public long all;//总的数量
 
         public SBTreeNode(long key) {
             this.key = key;
@@ -56,7 +56,7 @@ public class CountofRangeSum2 {
 
         public void add(long sum) {
             Boolean contains = set.contains(sum);
-            add(root, sum, contains);
+            root = add(root, sum, contains);
             set.add(sum);
         }
 
@@ -112,9 +112,9 @@ public class CountofRangeSum2 {
 
             //LL
             if (leftLeftSize > rightSize) {
-                cur = rightRotate(cur.left);
-                maintain(cur.right);
-                maintain(cur);
+                cur = rightRotate(cur);
+                cur.right = maintain(cur.right);
+                cur = maintain(cur);
             } else if (leftRightSize > rightSize) {
                 cur.left = leftRotate(cur.left);
                 cur = rightRotate(cur);
@@ -136,14 +136,42 @@ public class CountofRangeSum2 {
         }
 
         public SBTreeNode leftRotate(SBTreeNode cur) {
-
+            if (cur == null) {
+                return null;
+            }
+            long same = cur.all - (cur.right != null ? cur.right.all : 0) - (cur.left != null ? cur.left.all : 0);
+            SBTreeNode rightNode = cur.right;
+            cur.right = rightNode.left;
+            rightNode.left = cur;
+            rightNode.all = cur.all;
+            rightNode.size = cur.size;
+            cur.all = same + (cur.left != null ? cur.left.all : 0) + (cur.right != null ? cur.right.all : 0);
+            cur.size = 1 + (cur.left != null ? cur.left.size : 0) + (cur.right != null ? cur.right.size : 0);
+            return rightNode;
         }
 
         public SBTreeNode rightRotate(SBTreeNode cur) {
-            if(cur == null) {
+            if (cur == null) {
                 return null;
             }
-
+            long same = cur.all - (cur.left != null ? cur.left.all : 0) - (cur.right != null ? cur.right.all : 0);
+            SBTreeNode leftNode = cur.left;
+            cur.left = leftNode.right;
+            leftNode.right = cur;
+            leftNode.size = cur.size;
+            leftNode.all = cur.all;
+            cur.size = (cur.right != null ? cur.right.size : 0) + (cur.left != null ? cur.left.size : 0) + 1;
+            cur.all = same + (cur.left != null ? cur.left.all : 0) + (cur.right != null ? cur.right.all : 0);
+            return leftNode;
         }
+    }
+
+    public static void main(String[] args) {
+        int[] nums = {-2,2,-2,-3,2,-2};
+        int lower = -3;
+        int upper = 1;
+        CountofRangeSum2 countofRangeSum2 = new CountofRangeSum2();
+        long l = countofRangeSum2.countRangeSum(nums, lower, upper);
+        System.out.println(l);
     }
 }
