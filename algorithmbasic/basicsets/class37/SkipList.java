@@ -1,6 +1,5 @@
 package algorithmbasic.basicsets.class37;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class SkipList {

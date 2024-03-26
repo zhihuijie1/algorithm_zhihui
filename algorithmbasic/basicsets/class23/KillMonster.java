@@ -1,6 +1,5 @@
 package algorithmbasic.basicsets.class23;
 
-import org.jcp.xml.dsig.internal.dom.DOMUtils;
 
 /**
  * 给定3个参数，N，M，K
